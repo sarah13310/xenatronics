@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+{% block stylesheets_custom %}
+    <link rel="stylesheet" href="css/style.css">
+{% endblock %}
+
+{% block body %}
+
+    <div class="row w-100 h-100">
+        <div  class="col-2 frameLeft my-3 py-3">
+
+        </div>
+
+        <div class="col-9 my-2">
+            <h1>Portfolio</h1>
+            <div class="jumbotron">
+                <h4 class="display-6">Quelques exemples...</h4>
+                <p class="lead">De la conception Web à la réalisation d'applications bureau.</p>
+                <hr class="my-1">
+                <p>Plusieurs technologies sont possibles pour réaliser vos applications.</p>
+                <p class="lead">
+                    <a class="btn btn-primary" href="#" role="button">En savoir plus</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        let frameLeft = document.querySelector(".frameLeft");
+        let lu = document.createElement('ul');
+        frameLeft.appendChild(lu);
+
+
+        async function loadMenu(file) {
+            const response = await fetch(file);
+            const names = await response.json();
+            for (const item of names) {
+                const strCapital = item.name.charAt(0).toUpperCase() + item.name.slice(1);
+                lu.innerHTML += `<li ><a href="${item.link}">${strCapital}</a></li>`
+            }
+            console.log(names);
+            // logs [{ name: 'Joker'}, { name: 'Batman' }]
+        }
+
+        loadMenu('data/menu.json')
+
+    </script>
+{% endblock %}

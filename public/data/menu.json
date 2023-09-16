@@ -1,0 +1,6 @@
+[
+  {"name": "accueil", "link": "/"},
+  {"name": "portfolio", "link": "/portfolio"},
+  {"name": "github", "link": "https://github.com/"},
+  {"name": "A propos de", "link": "/about"}
+]

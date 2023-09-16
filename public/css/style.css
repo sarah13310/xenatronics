@@ -1,0 +1,57 @@
+html,body{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    position:fixed;
+    width:100%;
+    height:100vh;
+    margin: 0;
+    overflow:hidden;
+    background: url("../images/fond.jpg") no-repeat;
+    background-size:cover;
+}
+
+.frameLeft{
+    /*position:absolute;*/
+    /*left:2px;*/
+    /*top:5px;*/
+    margin-top: 5px;
+    min-width :280px;
+    max-width :320px;
+
+    height :96%;
+    border:1px solid white;
+    border-radius: 12px;
+    box-shadow: 2px 2px 8px black;
+    background:linear-gradient(0deg,#fffff03b,#fffff026 );
+}
+
+.frameLeft ul{
+    list-style-type:none;
+    color:white;
+    margin-left:10px;
+    margin-top:10px;
+    line-height:45px;
+    font-size:18px;
+}
+
+.frameLeft ul a{
+    text-decoration:none;
+    color: #dadada;
+}
+
+.frameLeft ul a:hover{
+    text-decoration:none;
+    color: white;
+}
+
+
+hr{
+    margin:8px 0!important;
+    color: #2fafe7!important;
+    opacity:0.8!important;
+}
+
+.display-6 {
+    font-size: 2.05rem!important;
+}
