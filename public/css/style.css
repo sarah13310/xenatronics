@@ -88,10 +88,10 @@ hr{
     width:200px;
     height:200px;
     overflow-y: hidden;
-    border:0.25px solid rgb(128, 128, 128);
+    border:0.25px solid lightgray;
     border-radius: 12px;
     box-shadow: 2px 2px 8px black;
-    background:linear-gradient(0deg,#00000091, rgb(128, 128, 128));
+    background:linear-gradient(#00000091, rgb(128, 128, 128));
 }
 .folio:hover{
     color:whitesmoke;
