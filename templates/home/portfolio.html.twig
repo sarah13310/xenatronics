@@ -36,6 +36,7 @@
 
         let lu = document.createElement('ul');
         frameLeft.appendChild(lu);
+        let folios=[];
 
         async function loadMenu(file) {
             const response = await fetch(file);
@@ -49,14 +50,17 @@
 
         async function loadFolios(file) {
             const response = await fetch(file);
-            const folios = await response.json();
+            folios = await response.json();
             for (const folio of folios) {
                 //const strCapital = folio.name.charAt(0).toUpperCase() + folio.name.slice(1);
                 // lu.innerHTML += `<li ><a href="${item.link}">${strCapital}</a>/li>`
-                frameGrid.innerHTML+=`<div class="folio">${folio.name}<img src="${folio.image}" alt="folio image"></div>`
+                frameGrid.innerHTML+=`<div class="folio">${folio.name}<img onClick="onImage('${folio.link}')" src="${folio.image}" alt="folio image"></div>`
             }
         }
 
+        function onImage(link){
+            window.location.href=`${link}`;
+        }
 
         loadMenu('data/menu.json')
         loadFolios('data/folios.json')
