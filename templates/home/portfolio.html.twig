@@ -17,19 +17,25 @@
             <div class="jumbotron">
                 <h4 class="display-6">Quelques exemples...</h4>
                 <p class="lead">De la conception Web à la réalisation d'applications bureau.</p>
-                <hr class="my-1">
                 <p>Plusieurs technologies sont possibles pour réaliser vos applications.</p>
+                <hr class="my-3">
                 <p class="lead">
-                    <a class="btn btn-primary" href="#" role="button">En savoir plus</a>
+                    <a class="btn btn-primary btn-lg" href="#" role="button">En savoir plus</a>
                 </p>
+            </div>
+            <div class="frameMain">
+                <div class="frameGrid">
+
+                </div>
             </div>
         </div>
     </div>
     <script type="text/javascript">
+        let frameGrid = document.querySelector(".frameGrid");
         let frameLeft = document.querySelector(".frameLeft");
+
         let lu = document.createElement('ul');
         frameLeft.appendChild(lu);
-
 
         async function loadMenu(file) {
             const response = await fetch(file);
@@ -38,11 +44,22 @@
                 const strCapital = item.name.charAt(0).toUpperCase() + item.name.slice(1);
                 lu.innerHTML += `<li ><a href="${item.link}">${strCapital}</a></li>`
             }
-            console.log(names);
-            // logs [{ name: 'Joker'}, { name: 'Batman' }]
+            // console.log(names);
         }
 
+        async function loadFolios(file) {
+            const response = await fetch(file);
+            const folios = await response.json();
+            for (const folio of folios) {
+                //const strCapital = folio.name.charAt(0).toUpperCase() + folio.name.slice(1);
+                // lu.innerHTML += `<li ><a href="${item.link}">${strCapital}</a>/li>`
+                frameGrid.innerHTML+=`<div class="folio">${folio.name}<img src="${folio.image}"></div>`
+            }
+        }
+
+
         loadMenu('data/menu.json')
+        loadFolios('data/folios.json')
 
     </script>
 {% endblock %}

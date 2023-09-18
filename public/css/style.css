@@ -6,9 +6,10 @@ html,body{
     width:100%;
     height:100vh;
     margin: 0;
-    overflow:hidden;
+    /*overflow:hidden;*/
     background: url("../images/fond.jpg") no-repeat;
     background-size:cover;
+    margin-bottom:5px;
 }
 
 .frameLeft{
@@ -55,3 +56,61 @@ hr{
 .display-6 {
     font-size: 2.05rem!important;
 }
+
+.frameGrid {
+    margin:10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+    height:inherit;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-left:5px;
+    /*grid-template-rows: repeat(7, 1fr);*/
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+}
+
+.frameMain{
+    height:63%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border:1px solid white;
+    border-radius: 12px;
+    box-shadow: 2px 2px 8px black;
+    background:linear-gradient(0deg,#00000091,#000 );
+}
+
+.folio{
+    margin: 5px auto;
+    color:lightgray;
+    padding:4px;
+    text-align: center;
+    width:200px;
+    height:200px;
+    overflow-y: hidden;
+    border:0.25px solid gray;
+    border-radius: 12px;
+    box-shadow: 2px 2px 8px black;
+    background:linear-gradient(0deg,#00000091,gray );
+}
+.folio:hover{
+    color:whitesmoke;
+    border:0.25px solid white;
+    cursor:pointer;
+}
+.folio img{
+    display:flex;
+    margin:auto;
+    align-items:center;
+    justify-content:center;
+    object-fit: contain;
+    width:90%;
+    height:90%;
+}
+
+.col-9{
+    width:79%!important;
+}
+
