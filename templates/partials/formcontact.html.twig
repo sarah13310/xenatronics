@@ -1,0 +1,34 @@
+<!-- Default form contact -->
+<p class="card-header info-color rounded-top">Nous contacter<i class="bi bi-envelope-at l-left"></i></p>
+<form class="card p-4 bg-opaque75 rounded-bottom " action="#!">
+
+    <!-- Name -->
+    <input type="text" id="defaultContactFormName" class="form-control mt-1 mb-4" placeholder="Votre nom">
+    <!-- Email -->
+    <input type="email" id="defaultContactFormEmail" class="form-control mb-4" placeholder="Adresse mail">
+
+    <!-- Subject -->
+    <label class="custom-control-label my-1">Sujet</label>
+    <select class="browser-default custom-select mb-3">
+        <option value="" disabled>Sélectionner le type de message</option>
+        <option value="1" selected>Général</option>
+        <option value="2">Signaler un bug</option>
+        <option value="3">Donner votre avis</option>
+    </select>
+
+    <!-- Message -->
+    <div class="form-group">
+        <textarea class="form-control rounded-1" id="exampleFormControlTextarea2" rows="5" placeholder="Votre message"></textarea>
+    </div>
+
+    <!-- Copy -->
+    <div class="custom-control custom-checkbox mb-2">
+        <input type="checkbox" class="custom-control-input" id="defaultContactFormCopy">
+        <label class="custom-control-label mt-1 mb-1" for="defaultContactFormCopy">Copie du message</label>
+    </div>
+
+    <!-- Send button -->
+    <button class="btn btn-info btn-block" type="submit">Envoyer</button>
+
+</form>
+<!-- Default form contact -->

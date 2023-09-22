@@ -5,65 +5,34 @@
     <link rel="stylesheet" href="css/style.css">
 {% endblock %}
 
-{% block body %}
 
-    <div class="row w-100 h-100">
-        <div  class="col-2 frameLeft my-3 py-3">
+{% block right %}
+    <h1>Portfolio</h1>
+    <div class="jumbotron">
+        <h4 class="display-6">Quelques exemples...</h4>
+        <p class="text-white">Explorez mon portfolio pour découvrir une palette variée d'applications, conçues
+            avec expertise à l'aide de multiples langages. De la création d'applications web élégantes à des
+            solutions robustes en backend, je donne vie à des idées avec précision et passion.</p>
+        <p class="text-light">Découvrez comment j'ai utilisé divers langages pour concrétiser des projets
+            innovants et fonctionnels.</p>
+        <hr class="my-3">
+        {#        <p class="lead"> #}
+        {#            <a class="btn btn-primary btn-lg" href="#" role="button">En savoir plus</a> #}
+        {#        </p> #}
+    </div>
+    <div class="frameMain">
+        <div class="frameGrid">
 
-        </div>
-
-        <div class="col-9 my-2">
-            <h1>Portfolio</h1>
-            <div class="jumbotron">
-                <h4 class="display-6">Quelques exemples...</h4>
-                <p class="lead">De la conception Web à la réalisation d'applications bureau.</p>
-                <p>Plusieurs technologies sont possibles pour réaliser vos applications.</p>
-                <hr class="my-3">
-                <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="#" role="button">En savoir plus</a>
-                </p>
-            </div>
-            <div class="frameMain">
-                <div class="frameGrid">
-
-                </div>
-            </div>
         </div>
     </div>
+{% endblock %}
+
+
+{% block extrajs %}
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="/js/folio.js"></script>
     <script type="text/javascript">
-        let frameGrid = document.querySelector(".frameGrid");
-        let frameLeft = document.querySelector(".frameLeft");
-
-        let lu = document.createElement('ul');
-        frameLeft.appendChild(lu);
-        let folios=[];
-
-        async function loadMenu(file) {
-            const response = await fetch(file);
-            const names = await response.json();
-            for (const item of names) {
-                const strCapital = item.name.charAt(0).toUpperCase() + item.name.slice(1);
-                lu.innerHTML += `<li ><a href="${item.link}">${strCapital}</a></li>`
-            }
-            // console.log(names);
-        }
-
-        async function loadFolios(file) {
-            const response = await fetch(file);
-            folios = await response.json();
-            for (const folio of folios) {
-                //const strCapital = folio.name.charAt(0).toUpperCase() + folio.name.slice(1);
-                // lu.innerHTML += `<li ><a href="${item.link}">${strCapital}</a>/li>`
-                frameGrid.innerHTML+=`<div class="folio">${folio.name}<img onClick="onImage('${folio.link}')" src="${folio.image}" alt="folio image"></div>`
-            }
-        }
-
-        function onImage(link){
-            window.location.href=`${link}`;
-        }
-
         loadMenu('data/menu.json')
         loadFolios('data/folios.json')
-
     </script>
 {% endblock %}

@@ -1,114 +1,164 @@
-html,body{
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    position:fixed;
-    width:100%;
-    height:100vh;
-    margin: 0;
+html, body {
+
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
     /*overflow:hidden;*/
     background: url("../images/fond.jpg") no-repeat;
-    background-size:cover;
-    margin-bottom:5px;
+    background-size: cover;
+    margin: 0 ;
+    padding: 0;
+    box-sizing: content-box;
+    color:lightgray!important;
 }
 
-.frameLeft{
-    /*position:absolute;*/
-    /*left:2px;*/
-    /*top:5px;*/
-    margin-top: 5px;
-    min-width :280px;
-    max-width :320px;
 
-    height :96%;
-    border:1px solid white;
+/* scrollbar custom styles */
+/* width */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(darkgray, gray);;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(darkgray, darkgray);
+}
+
+
+.frameLeft {
+
+    border: 1px solid white;
     border-radius: 12px;
     box-shadow: 2px 2px 8px black;
-    background:linear-gradient(0deg,#fffff03b,#fffff026 );
+    background: linear-gradient(0deg, #fffff03b, #fffff026);
+    margin-bottom:8px;
+}
+.frameRight{
+    height:inherit;
+}
+.frameLeft ul {
+    list-style-type: none;
+    color: white;
+    margin-left: 10px;
+    margin-top: 10px;
+    line-height: 45px;
+    font-size: 18px;
 }
 
-.frameLeft ul{
-    list-style-type:none;
-    color:white;
-    margin-left:10px;
-    margin-top:10px;
-    line-height:45px;
-    font-size:18px;
-}
-
-.frameLeft ul a{
-    text-decoration:none;
+.frameLeft ul a {
+    text-decoration: none;
     color: #dadada;
 }
 
-.frameLeft ul a:hover{
-    text-decoration:none;
+.frameLeft ul a:hover {
+    text-decoration: none;
     color: white;
 }
 
 
-hr{
-    margin:8px 0!important;
-    color: #2fafe7!important;
-    opacity:0.8!important;
+hr {
+    margin: 8px 0 !important;
+    color: #2fafe7 !important;
+    opacity: 0.8 !important;
 }
 
 .display-6 {
-    font-size: 2.05rem!important;
+    font-size: 1.25rem !important;
 }
 
 .frameGrid {
-    margin:10px;
 
-    width:100%;
-    height:inherit;
+    height: 98%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    margin-left:5px;
+    margin: 5px 0;
     /*grid-template-rows: repeat(7, 1fr);*/
-    grid-column-gap: 5px;
-    grid-row-gap: 5px;
+    grid-column-gap: 4px;
+    grid-row-gap: 4px;
 }
 
-.frameMain{
-    height:63%;
+.frameMain {
+
     overflow-x: hidden;
     overflow-y: auto;
-    border:1px solid white;
+    border: 1px solid white;
     border-radius: 12px;
     box-shadow: 2px 2px 8px black;
-    background:linear-gradient(0deg,#00000091,#000 );
+    background: linear-gradient(0deg, #00000091, #000);
+    margin-bottom:8px;
 }
 
-.folio{
-    margin: 5px auto;
-    color:lightgray;
-    padding:4px;
-    text-align: center;
-    width:200px;
-    height:200px;
-    overflow-y: hidden;
-    border:0.25px solid lightgray;
-    border-radius: 12px;
-    box-shadow: 2px 2px 8px black;
-    background:linear-gradient(#00000091, rgb(128, 128, 128));
-}
-.folio:hover{
-    color:whitesmoke;
-    border:0.25px solid white;
-    cursor:pointer;
-}
-.folio img{
+.folio {
     display:flex;
-    margin:auto;
-    align-items:center;
-    justify-content:center;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    margin: 5px auto;
+    color: lightgray;
+    padding: 4px;
+    text-align: center;
+    width: 190px;
+    height: 175px;
+    overflow-y: hidden;
+    border: 0.25px solid lightgray;
+    border-radius: 12px;
+    box-shadow: 2px 2px 8px black;
+    background: linear-gradient(#00000091, rgb(128, 128, 128));
+}
+
+.folio:hover {
+    color: whitesmoke;
+    border: 0.25px solid white;
+    cursor: pointer;
+}
+
+.folio img {
+    display: flex;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
     object-fit: contain;
-    width:90%;
-    height:90%;
+    width: 20%;
+    height: 20%;
 }
 
-.col-9{
-    width:79%!important;
+.scale {
+    transition: scale 0.4s;
 }
 
+.folio:hover .scale {
+    scale: 1.2;
+}
+
+/*.col-9 {*/
+/*    flex: 0 0 auto;*/
+/*    width: 77% !important;*/
+/*}*/
+
+.text-light, .text-white {
+    color: #cecccc !important;
+}
+
+.bg-opaque75 {
+    --bs-bg-opacity: 0.65;
+    background-color: rgba(var(--bs-black-rgb),var(--bs-bg-opacity))!important;
+}
+
+.custom-control-label{
+    opacity:1;
+    color:white;
+}
