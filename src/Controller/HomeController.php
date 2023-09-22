@@ -31,7 +31,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/sendcontact', name: 'sendcontact')]
-    public function about(): Response
+    public function sendcontact(): Response
     {
         return $this->render('home/about.html.twig', [
             'action' => '/sendcontact',
