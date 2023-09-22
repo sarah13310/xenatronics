@@ -26,7 +26,15 @@ class HomeController extends AbstractController
     public function about(): Response
     {
         return $this->render('home/about.html.twig', [
-            'controller_name' => 'HomeController',
+            'action' => '/sendcontact',
+        ]);
+    }
+
+    #[Route('/sendcontact', name: 'sendcontact')]
+    public function about(): Response
+    {
+        return $this->render('home/about.html.twig', [
+            'action' => '/sendcontact',
         ]);
     }
 }
