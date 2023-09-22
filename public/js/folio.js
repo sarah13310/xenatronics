@@ -30,7 +30,7 @@ function preloadImages(imagePaths) {
         return new Promise((resolve) => {
             const img = new Image();
             img.onload = () => resolve(img);
-            img.onerror = (event) => {
+            img.onerror = () => {
                 img.src = "/images/noimage.jpg";
                 resolve(img)
             };
