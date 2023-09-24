@@ -1,0 +1,51 @@
+
+@media (min-width: 992px) {
+    .navbar {
+        width: 100%;
+    }
+
+    form input {
+        margin-bottom: 0.7em;
+    }
+
+}
+
+@media (max-width: 991px) {
+
+    .navbar-brand {
+        color: white;
+        margin-left: 4px;
+        font-size: 2.5vw;
+        line-height: 35px;
+    }
+
+    .col-2 {
+        width: 23%;
+    }
+
+    .frameLeft ul {
+        font-size: 2vw !important;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .frameLeft ul  {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 568px) {
+    .navbar-toggler-icon {
+        left: 50%;
+        right: 50%;
+        transform: translate(-50%);
+    }
+    .frameLeft ul {
+        font-size: 2.1vw !important;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        line-height: 25px;
+    }
+
+}
+

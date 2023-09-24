@@ -5,48 +5,48 @@
     position: relative;
     padding: 0.75rem 1.25rem;
     margin-bottom: 0;
-    background-color: rgba(0,0,0,0.03);
-    border-bottom: 1px solid rgba(0,0,0,0.125);
-    font-size:17px;
-    z-index:5;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    font-size: 17px;
+    z-index: 5;
 }
 
 .info-color {
     font-weight: 300;
-    background: linear-gradient(#076ea1,#33b5e5);
-    color:white;
-    text-align:center;
+    background: linear-gradient(#076ea1, #33b5e5);
+    color: white;
+    text-align: center;
 }
 
 
-.h-80{
-    height:80%!important;
+.h-80 {
+    height: 80% !important;
 }
 
-.h-90{
-    height:90%!important;
+.h-90 {
+    height: 90% !important;
 }
 
-.h-95{
-    height:97%!important;
+.h-95 {
+    height: 97% !important;
 }
 
 .card {
     position: relative;
     font-weight: 300;
     border: 0.25px solid lightgray;
-    -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
-    height:520px!important;
-    bottom:8px;
-    z-index:0;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    height: 520px !important;
+    bottom: 8px;
+    z-index: 0;
 }
 
-.rounded-top{
-    border-top-left-radius: 0.375rem!important;
-    border-top-right-radius:0.375rem!important;
-    border-bottom-left-radius: 0!important;
-    border-bottom-right-radius:0!important;
+.rounded-top {
+    border-top-left-radius: 0.375rem !important;
+    border-top-right-radius: 0.375rem !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
 }
 
 .custom-tooltip {
@@ -54,65 +54,81 @@
     --bs-tooltip-color: white;
 }
 
-.rounded-bottom{
-    border-top-left-radius: 0!important;
-    border-top-right-radius:0!important;
-    border-bottom-left-radius: 0.375rem!important;
-    border-bottom-right-radius:0.375rem!important;
+.rounded-bottom {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-left-radius: 0.375rem !important;
+    border-bottom-right-radius: 0.375rem !important;
 }
 
-.rond{
+.rond {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius:50%!important;
-    min-height:35px;
-    min-width:35px;
-    max-width:50px;
-    max-height:50px;
-    background:#9fd7f0;
-    color:#6c6c6c;
-    text-decoration:none;
+    border-radius: 50% !important;
+    min-height: 35px;
+    min-width: 35px;
+    max-width: 50px;
+    max-height: 50px;
+    background: #9fd7f0;
+    color: #6c6c6c;
+    text-decoration: none;
 }
 
 .rond:hover {
-    background:#40bbf1;
-    color:black;
+    background: #40bbf1;
+    color: black;
 }
 
-.btn-info{
-    border-radius:25px;
+.btn-info {
+    border-radius: 25px;
 }
 
-.btn-info:hover{
-    filter:brightness(1.2);
+.btn-info:hover {
+    filter: brightness(1.2);
 }
 
-.l-left{
-    position:absolute;
-    left:18px;
+.l-left {
+    position: absolute;
+    left: 18px;
 }
 
-.l-right{
-    position:absolute;
-    right:18px;
+.l-right {
+    position: absolute;
+    right: 18px;
 }
 
 /* menu */
-.navbar .container-fluid,
+.navbar,
 .navbar-expand-lg .navbar-collapse,
-.navbar-expand-lg .navbar-nav{
+.navbar-expand-lg .navbar-nav {
     flex-direction: column;
     align-items: flex-start;
 }
 
-@media (min-width: 992px) {
-    .navbar {
-        width: 25%;
-        height: 100vh;
-    }
-    form input {
-        margin-bottom: 0.7em;
-    }
+.navbar {
+    margin-top: 5px;
+    --bs-navbar-color: lightgray;
+    --bs-navbar-hover-color: whitesmoke;
+    --bs-navbar-disabled-color: gray;
+    --bs-navbar-active-color: white;
 }
 
+.active {
+    color: white;
+}
+
+.navbar-nav {
+    --bs-nav-link-color: #f5f5f5c9;
+}
+
+.navbar-brand {
+    color: whitesmoke;
+    margin-left: 4px;
+    font-size: 1.8vw;
+}
+
+.navbar-brand:hover {
+    color: white;
+    margin-left: 4px;
+}
