@@ -110,7 +110,7 @@
     margin-top: 5px;
     --bs-navbar-color: lightgray;
     --bs-navbar-hover-color: whitesmoke;
-    --bs-navbar-disabled-color: gray;
+    --bs-navbar-disabled-color: rgb(128, 128, 128);
     --bs-navbar-active-color: white;
 }
 
