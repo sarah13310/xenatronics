@@ -1,0 +1,34 @@
+knpu_oauth2_client:
+    clients:
+        google:
+            # must be "google" - it activates that type!
+            type: google
+            # add and set these environment variables in your .env files
+            client_id: '%env(GOOGLE_ID)%'
+            client_secret: '%env(GOOGLE_SECRET)%'
+            # a route name you'll create
+            redirect_route: google.check
+            redirect_params: { }
+        github:
+            # must be "github" - it activates that type!
+            type: github
+            # add and set these environment variables in your .env files
+            client_id: '%env(GITHUB_CLIENT_ID)%'
+            client_secret: '%env(GITHUB_CLIENT_SECRET)%'
+            # a route name you'll create
+            redirect_route: github.check
+            redirect_params: { }
+        facebook:
+            # must be "github" - it activates that type!
+            type: facebook
+            # add and set these environment variables in your .env files
+            client_id: '%env(FACEBOOK_ID)%'
+            client_secret: '%env(FACEBOOK_SECRET)%'
+            # a route name you'll create
+            redirect_route: facebook.check
+            redirect_params: { }
+            graph_api_version: 'v18.0'
+#                service: github
+            # whether to check OAuth2 "state": defaults to true
+            # use_state: true
+        # configure your clients as described here: https://github.com/knpuniversity/oauth2-client-bundle#configuration

@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter{% endblock %}
+
+{% block right %}
+    {% include('partials/formcarouselavatars.html.twig') %}
+    <h1>Accueil</h1>
+    <div class="jumbotron">
+        <h4 class="display-6">Ajouter</h4>
+        <p></p>
+        <hr class="my-3">
+        <div class="col">
+            <div class="row">
+                {% include('partials/formuser.html.twig') %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extrajs %}
+    <script type="text/javascript" src="{{ asset('js/common.js') }}"></script>
+    <script type="text/javascript">
+
+        let modalAvatar = document.querySelector("#modalAvatar");
+        const modal = new bootstrap.Modal(modalAvatar);
+
+        const myCarousel = document.getElementById('myCarousel')
+        const carousel = new bootstrap.Carousel(myCarousel);
+
+        const prev=document.querySelector(".carousel-control-prev");
+        const next=document.querySelector(".carousel-control-next");
+
+        prev.addEventListener("click", function(){
+            carousel.prev();
+        });
+        next.addEventListener("click", function(){
+            carousel.next();
+        });
+
+        let name_f = document.getElementById("user_name");
+        let email_f = document.getElementById("user_email");
+        let image_f = document.getElementById("user_avatar");
+
+        let name_p = document.getElementById("name");
+        let email_p = document.getElementById("email");
+        let image_p = document.getElementById("image_preview");
+
+
+        name_f.addEventListener("input", (event) => {
+            const inputValue = event.target.value;
+            if (inputValue != undefined) {
+                name_p.innerText = "Nom: " + inputValue;
+            }
+        })
+        email_f.addEventListener("input", (event) => {
+            const inputValue = event.target.value;
+            if (inputValue != undefined) {
+                email_p.innerText = "E-mail: " + inputValue;
+            }
+        })
+        image_f.addEventListener('change', function (event) {
+                const selectedFile = event.target.files[0];
+                if (selectedFile) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        image_p.src = e.target.result;
+                        //folio[2].value=selectedFile.name;
+                    };
+                    reader.onerror = (e) => {
+                        image_p.src = "/images/noimage.jpg";
+                    };
+                    reader.readAsDataURL(selectedFile);
+                }
+            }
+        );
+
+        function onAvatar() {
+            modal.show();
+        }
+
+        function onSubmit(action) {
+            switch (action) {
+                case "select":
+                    let item=document.querySelector(".carousel-item.active");
+                    //console.log(item.firstElementChild.src);
+                    setTimeout(() => {
+                        modal.hide();
+                        image_p.src =item.firstElementChild.src;
+                    }, 1200);
+                    break;
+            }
+        }
+
+    </script>
+{% endblock %}

@@ -1,18 +1,58 @@
 <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="#">Xenatronics</a>
+    <a class="navbar-brand text-center" >{{ app.session.get('name') }}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenuPop"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="navbar-collapse" id="navbarMenuPop">
-        <ul class="navbar-nav mr-auto">
-            {% for item in menu %}
-                <li class="nav-item ">
-                    <a class="nav-link" href="{{ item.link }}"><span
-                                class="{{ item.icon }}"></span>&nbsp;&nbsp;&nbsp; {{ item.name|capitalize }} </a>
+        <ul class="navbar-nav w-100">
+            {% if app.user %}
+                <img class="logo-img mb-2" src="{{ app.session.get('avatar') }}">
+                <li class="nav-item small w-100 text-center">
+                    Vous êtes connecté en tant que <br/>
+                    <span class="gray">{{ app.user.userIdentifier }}</span>
                 </li>
-            {% endfor %}
+                <li class="nav-item ">
+                    <a class="nav-link" href="{{ path('app.home') }}"><span class="bi bi-house"></span>&nbsp;&nbsp;&nbsp;
+                        Accueil </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="https://github.com/"><span class="bi bi-github"></span>&nbsp;&nbsp;&nbsp;
+                        GitHub </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="{{ path('admin.image') }}"><span class="bi bi-image"></span>&nbsp;&nbsp;&nbsp;
+                        Images </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle bi bi-journals" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">&nbsp;&nbsp;&nbsp;&nbsp;Folio</a>
+                    <div class="dropdown-menu" >
+                        <a class="dropdown-item" href="{{ path('portfolio') }}">Liste</a>
+                        <a class="dropdown-item" href="{{ path('admin.dashboard') }}">Gestion</a>
+                    </div>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/login"><span class="bi bi-box-arrow-in-right"></span>&nbsp;&nbsp;&nbsp;Se
+                        connecter
+                    </a>
+                </li>
+                {% for item in menu %}
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{ item.link }}"><span
+                                    class="{{ item.icon }}"></span>&nbsp;&nbsp;&nbsp; {{ item.name|capitalize }} </a>
+                    </li>
+                {% endfor %}
+            {% endif %}
+
+
+            {% if app.user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout"><span class="bi bi-box-arrow-right"></span>&nbsp;&nbsp;&nbsp;Déconnexion
+                    </a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 </nav>

@@ -2,16 +2,19 @@ html, body {
 
     position: relative;
     width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
     /*overflow:hidden;*/
-    background: url("../images/fond.jpg") no-repeat;
+    background: url("../images/xbase.jpg") no-repeat;
     background-size: cover;
     margin: 0;
     padding: 0;
     box-sizing: content-box;
     color: lightgray !important;
+}
+
+body{
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100vh;
 }
 
 
@@ -58,7 +61,7 @@ html, body {
     margin-left: 10px;
     margin-top: 10px;
     line-height: 45px;
-    font-size:1.4vw;
+    font-size: 1.4vw;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -166,3 +169,13 @@ hr {
     color: white;
 }
 
+.small, .gray{
+    font-size: 12px;
+    color: whitesmoke;
+    white-space: nowrap;
+    line-height:22px;
+}
+
+.gray{
+    color:lightgray;
+}

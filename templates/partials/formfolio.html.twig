@@ -1,0 +1,14 @@
+{{ form_start(form,{'attr': {'id':'formPoly','class': 'ms-2 col-5 card bg-opaque75 rounded'}}) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.link) }}
+    {{ form_row(form.icon) }}
+    <button class="btn btn-primary btn-lg" type="submit" role="button">Valider</button>
+{{ form_end(form) }}
+
+<div class="ms-1 col-3 card bg-opaque75">
+    <img id="image_preview" class="mt-2 p-4" src="{{ asset('/images/noimage.jpg') }} alt="image_preview">
+    <div class="ms-4">
+        <p class="text-light" id="name">Nom du projet:</p>
+        <p class="text-light" id="link">Lien :</p>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+{{ form_start(form,{'attr': {'class': 'ms-2 col-5 card2 bg-opaque75 rounded'}}) }}
+    {{ form_row(form.roles) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.googleId) }}
+{{ form_row(form.avatar) }}<button type="button" onclick="onAvatar()" class="btn btn-primary bi bi-grid-fill  mb-2" >&nbsp;&nbsp;Avatars</button>
+    {{ form_row(form.hostedDomain) }}
+    <button class="col-3 mb-2 btn btn-primary " type="submit" role="button">Créer</button>
+{{ form_end(form) }}
+
+<div class="ms-2 col-3 card2 bg-opaque75 rounded">
+    <img id="image_preview"  src="{{ asset('/images/noimage.jpg') }}" class="thumb-sm mt-2 p-1 "/>
+    <div class="mt-3 ">
+        <p class="text-light" id="name">Nom: </p>
+        <p class="text-light" id="email">E-mail :</p>
+    </div>
+</div>

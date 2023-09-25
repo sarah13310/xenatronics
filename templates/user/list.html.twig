@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des comptes utilisateurs{% endblock %}
+
+{% block right %}
+    {{ include('partials/modal_delete.html.twig') }}
+    <div id="menu" class="menu collapse">
+        <div onclick="onAction(this,'edit')" class="menu-item"><i class="bi bi-pencil"></i>&nbsp;Edition</div>
+        <div onclick="onAction(this,'delete')" class="menu-item"><i class="bi bi-trash"></i>&nbsp;Supprimer</div>
+    </div>
+    <h1>Gestion des comptes</h1>
+    <div class="jumbotron">
+        <div class="bar d-flex justify-content-between align-items-center">
+            <p class="text-light">Modifier les utilisateurs </p>
+            <a href="{{ path('user.add') }}" class="btn btn-primary bi bi-plus-circle ">&nbsp;&nbsp;Ajouter</a>
+        </div>
+        <p></p>
+        <hr class="my-3">
+        {{ include('partials/flash.html.twig') }}
+        <div class="card  p-1">
+            <table class="rounded table table-primary table-hover table-striped">
+                <thead>
+                <tr>
+                    <th class="thead rounded-l-top " colspan="2" scope="col">Nom</th>
+                    <th class="thead" scope="col">Lien</th>
+                    <th class="thead rounded-r-top" scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in pagination %}
+                    <tr>
+                        <td class="tdid collapse">{{ user.id }}</td>
+                        <td><img class="frame-img" src="/images/loading.gif"></td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td class="tdimage collapse">{{ user.avatar }}</td>
+                        <td>
+                            <button onmouseenter="showContext(this);"
+                                    class="btn btn-primary bi bi-three-dots "></button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block extrajs %}
+    <script type="text/javascript" src="{{ asset('js/common.js') }}"></script>
+    <script type="text/javascript">
+        let tr_id = null;
+        let tr_name = "";
+        const menu = document.getElementById("menu");
+        const modal = document.getElementById("modalDelete")
+        const myModal = new bootstrap.Modal(modal);
+        const tbody = document.querySelectorAll("tbody tr");
+
+        tbody.forEach((item) => {
+            item.addEventListener("mouseenter", hideMenu);
+        });
+
+        modal.addEventListener("show.bs.modal", function () {
+            document.getElementById('message').innerHTML = "Voulez-vous supprimer l\'utilisateur '<b>" + tr_name + "</b>' ?";
+        });
+
+        function loadImage(element, url) {
+            let image = new Image();
+            image.onload = () => {
+                element.src = image.src;
+            }
+            image.onerror = () => {
+                element.src = "../images/noimage.jpg"
+            }
+            image.src = url;
+        }
+
+        let imagesSrc = document.querySelectorAll(".tdimage");
+        let images = document.querySelectorAll(".frame-img");
+
+        for (let i = 0; i < imagesSrc.length; i++) {
+            let image = imagesSrc[i].innerText;
+            loadImage(images[i], image);
+        }
+        menu.addEventListener("mouseleave", hideMenu);
+
+        function showContext(button) {
+            const buttonRect = button.getBoundingClientRect();
+            menu.style.top = `${buttonRect.bottom - 10}px`;
+            menu.style.left = `${buttonRect.left - 6}px`;
+            // Afficher le menu
+            menu.classList.remove("collapse");
+            tr_id = button.parentElement.parentElement.children[0].innerText;
+            tr_name = button.parentElement.parentElement.children[2].innerText;
+        }
+
+        function hideMenu() {
+            menu.classList.add("collapse");
+        }
+
+
+        function onAction(elem, action) {
+
+            switch (action) {
+                case "edit":
+                    onSubmit('edit');
+                    break;
+
+                case "delete":
+                    myModal.show();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        // suppression du projet
+        function onSubmit(action) {
+            window.location.href = "/user/" + action + "/" + tr_id;
+        }
+    </script>
+{% endblock %}

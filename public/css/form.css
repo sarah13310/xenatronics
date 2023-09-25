@@ -31,7 +31,7 @@
     height: 97% !important;
 }
 
-.card {
+.card, .card2 {
     position: relative;
     font-weight: 300;
     border: 0.25px solid lightgray;
@@ -42,8 +42,27 @@
     z-index: 0;
 }
 
+.card2 {
+    /*border: 0.25px solid lightgray;*/
+    height: auto !important;
+}
+
 .rounded-top {
     border-top-left-radius: 0.375rem !important;
+    border-top-right-radius: 0.375rem !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.rounded-l-top {
+    border-top-left-radius: 0.375rem !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.rounded-r-top {
+    border-top-left-radius: 0 !important;
     border-top-right-radius: 0.375rem !important;
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
@@ -110,13 +129,13 @@
     margin-top: 5px;
     --bs-navbar-color: lightgray;
     --bs-navbar-hover-color: whitesmoke;
-    --bs-navbar-disabled-color: rgb(128, 128, 128);/* gray */
+    --bs-navbar-disabled-color: rgb(128, 128, 128); /* gray */
     --bs-navbar-active-color: white;
 }
 
-.active {
-    color: white;
-}
+/*.active {*/
+/*    color: white;*/
+/*}*/
 
 .navbar-nav {
     --bs-nav-link-color: #f5f5f5c9;
@@ -124,16 +143,261 @@
 
 .navbar-brand {
     color: whitesmoke;
-    margin-left: 4px;
+    margin: 4px auto;
     font-size: 1.8vw;
+    width: 100%;
 }
 
 .navbar-brand:hover {
     color: white;
+    margin: 4px auto;
+}
+
+
+label {
+    color: lightgray;
+}
+
+form {
+    padding: 6px;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: skyblue;
+    font-size: 15px;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid skyblue;
+}
+
+.separator:not(:empty)::before {
+    margin-right: .25em;
+}
+
+.separator:not(:empty)::after {
+    margin-left: .25em;
+}
+
+
+.btn-primary {
+    position: relative;
+    background-image: linear-gradient(#0e82c4, #2fa4e7 60%, #2c9ad9);
+}
+
+.btn-primary:hover {
+    filter: brightness(1.1);
+}
+
+.logo-img {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    background: black;
+    padding: 5px;
+    border: 2px solid white;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+.navbar-expand-lg .navbar-nav
+.dropdown-menu {
+    position: relative;
+    background: transparent;
+    top: -12px;
+    left: 8px;
+    border-radius: 6px;
+    border: 0.2px solid #a9a9a98c;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 0px 12px;
+    width: 95%;
     margin-left: 4px;
 }
 
-
-label{
-    color: lightgray;
+.dropdown-item:hover {
+    background: #00000047;
+    border-radius: 2px;
 }
+
+.table > :not(caption) > * > * {
+    padding: 0.5rem 0.5rem;
+    color: #323232;
+    background-color: #6ec4f6;
+    border-bottom-width: var(--bs-border-width);
+    box-shadow: inset 0 0 0 9999px var(--bs-table-bg-state, var(--bs-table-bg-type, var(--bs-table-accent-bg)));
+    font-weight: normal;
+    --bs-table-hover-bg: skyblue;
+    --bs-table-striped-bg: #7ccaf5;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.thead {
+    background: #109ced !important;
+    color: black;
+    font-weight: 600 !important;
+}
+
+table {
+    border: 1px solid darkgray;
+    box-shadow: 1px 1px 10px black;
+}
+
+.current, .page, .next, .previous, .last, .first {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    width: 28px;
+    background: skyblue;
+    margin: 0 5px;
+    border-radius: 50%;
+    padding: 7px;
+    font-weight: 600;
+    box-shadow: 1px 1px 3px black;
+    border: 1px solid;
+}
+
+.page {
+    background: lightgray;
+}
+
+.page a {
+    text-decoration: none;
+}
+
+.frame-img {
+    height: 40px;
+    width: 80px;
+    object-fit: contain;
+}
+
+.menu {
+    z-index: 995;
+    position: absolute;
+    width: 120px;
+    height: 70px;
+    background: linear-gradient(lightgray, darkgray);
+    border-radius: 6px;
+    border: 1px solid darkgray;
+    padding: 4px;
+    box-shadow: 1px 1px 8px black;
+}
+
+.menu-item {
+    width: 96%;
+    color: black;
+    margin: 4px 2px;
+    padding: 0 4px;
+    cursor: pointer;
+    margin *
+    left: 0;
+}
+
+.menu-item:hover {
+    color: black;
+    margin: 4px 2px;
+    padding: 0 4px;
+    margin *
+    left: 0;
+
+    background: skyblue;
+}
+
+.dragdrop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border: 1px solid darkgray;
+    border-radius: 10px;
+    background: black;
+    opacity: 0.75;
+    color: white;
+}
+
+.dragdrop:hover {
+    border: 1px solid white;
+}
+
+.thumb, .thumb-sm , .thumb-avatar{
+    object-fit: contain;
+    width: 95%;
+    height: 260px;
+    background: white;
+    border-radius: 12px;
+    opacity: 1;
+}
+
+.thumb-sm {
+    width: 90%;
+    height: 220px;
+    border-radius: 9px;
+    margin: 5px auto;
+}
+.thumb-avatar {
+    width: 89%;
+    height: 220px;
+    border-radius: 8px;
+    margin: 5px auto;
+}
+
+.carousel {
+    height: 250px;
+    background: black;
+}
+
+.carousel-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: inherit;
+}
+
+.thumb-avatar:hover {
+    border: 5px solid skyblue;
+    cursor: pointer;
+    transform: scale(1.10);
+}
+
+.carousel-control-next, .carousel-control-prev {
+    position: absolute;
+    top: 43%;
+    bottom: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: #fff;
+    text-align: center;
+    background: 0 0;
+    border: 0;
+    opacity: .5;
+    transition: opacity .15s ease;
+    background: darkgray;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    border: 0.5px solid darkgray;
+    box-shadow: 1px 1px 4px darkgray;
+    color: black;
+    margin: 0 6px;
+}
+
+#modalAvatar .modal-content {
+    width: 350px;
+}
+
+

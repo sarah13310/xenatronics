@@ -2,25 +2,29 @@
 
 namespace App\Controller;
 
+use App\Service\Util;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\FolioRepository;
+use Knp\Component\Pager\PaginatorInterface;
 
 class HomeController extends AbstractController
 {
+    private Util $util;
 
-
-    private function loadmenu($file){
-        $people_json = file_get_contents($file);
-        $tab_json = json_decode($people_json, false);
-        return $tab_json;
+    public function __construct(Util $util)
+    {
+        $this->util = $util;
+        $this->menu = $this->util->loadmenu("data/menu.json");
     }
 
     #[Route('/', name: 'app.home')]
     public function index(): Response
     {
         return $this->render('home/index.html.twig', [
-            'menu' => $this->loadmenu("data/menu.json"),
+            'menu' => $this->menu,
         ]);
     }
 
@@ -28,16 +32,15 @@ class HomeController extends AbstractController
     public function portfolio(): Response
     {
         return $this->render('home/portfolio.html.twig', [
-            'controller_name' => 'HomeController',
-            'menu' => $this->loadmenu("data/menu.json"),
+            'menu' => $this->menu,
         ]);
     }
+
     #[Route('/about', name: 'about')]
     public function about(): Response
     {
         return $this->render('home/about.html.twig', [
-            'menu' => $this->loadmenu("data/menu.json"),
-
+            'menu' => $this->menu,
             'action' => '/sendcontact',
         ]);
     }
@@ -49,4 +52,15 @@ class HomeController extends AbstractController
             'action' => '/sendcontact',
         ]);
     }
+
+    #[Route('/dashboard', name: 'dashboard')]
+    public function dashboard(FolioRepository $repo, Request $request, PaginatorInterface $paginator): Response
+    {
+        $pagination= $paginator->paginate($repo->paginationQuery(), $request->get('page', 1), 5);
+        return $this->render('home/dashboard.html.twig', [
+            'action' => '/dashboard',
+            'pagination' => $pagination,
+        ]);
+    }
+
 }

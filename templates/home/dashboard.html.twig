@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block stylesheets_custom %}
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/media.css">
+{% endblock %}
+
+{% block right %}
+    <h1>Tableau de bord</h1>
+    <div class="jumbotron">
+        <p class="text-light">Gérer vos projets</p>
+        <p></p>
+        <hr class="my-3">
+        <div class="card  p-1">
+            <table class="rounded table table-primary table-hover table-striped">
+                <thead >
+                    <tr>
+                        <th class="thead rounded-l-top" scope="col">Nom</th>
+                        <th class="thead rounded-r-top" scope="col">Lien</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for folio in pagination %}
+                    <tr>
+                        <td>{{ folio.name }}</td>
+                        <td>{{ folio.link }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block extrajs %}
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript">
+        //loadMenu("data/menu.json")
+    </script>
+{% endblock %}

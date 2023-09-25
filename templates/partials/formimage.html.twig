@@ -1,0 +1,17 @@
+{#<form name="picture" method="POST" class="card p-2 bg-opaque75 rounded text-light" action="{{ path('admin.image') }}" enctype="multipart/form-data">#}
+{{ form_start(form,{'attr': {'class': 'p-3 ms-2 card bg-opaque75 rounded text-light'}}) }}
+    <div>
+{#        <p class="ms-2">Charger votre fichier à partir d'un dossier</p>#}
+{#        <input name="inputfile" id="inputfile" type="file" class="form-control">#}
+        {{ form_row(form.inputfile) }}
+    </div>
+    <div class="separator my-2">OU</div>
+    <p class="mt-2">Déposez votre fichier dans la zone ci-dessous</p>
+    <div ondrop="dropHandler(event)" ondragover="dragOverHandler(event)" id="drop-area" class="dragdrop">
+        <p id="message">Veuillez glisser et déposer un fichier image ici.<br>La taille du fichier ne doit pas dépasser 2Mo.</p>
+        <img src="{{ asset('images/noimage.jpg') }}" alt="imagepreview" id="image"
+             class="p-2 thumb collapse"/>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Valider</button>
+{#</form>#}
+{{ form_end(form) }}

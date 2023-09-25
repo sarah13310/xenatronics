@@ -5,3 +5,11 @@ controllers:
     type: attribute
 
 
+github.login:
+    path: '/github/login'
+    controller: App\Controller\GitHubLoginController::login
+
+github.check:
+    path: '/github/check'
+    controller: App\Controller\GitHubLoginController::check
+
