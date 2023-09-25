@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends AbstractController
+class LoginController extends AbstractController
 {
     private function loadmenu($file){
         $people_json = file_get_contents($file);
@@ -38,5 +38,6 @@ class SecurityController extends AbstractController
     #[Route(path: '/logout', name: 'app.logout')]
     public function logout(): void
     {
+        throw new \LogicException("Error Login");
     }
 }
