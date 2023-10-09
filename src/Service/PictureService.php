@@ -59,7 +59,7 @@ class PictureService
                 break;
             case 1:// paysage
                 $squareSize = $imageHeight;
-                $src_x = ($imageWidth - $squareSize) / 2;;
+                $src_x = ($imageWidth - $squareSize) / 2;
                 $src_y = 0;
                 break;
         }
