@@ -18,6 +18,10 @@ class PictureService
         $this->requestStack = $requestStack;
     }
     // Ajout des images sur le serveur
+
+    /**
+     * @throws Exception
+     */
     public function add(UploadedFile $picture, ?string $folder = "", ?int $width = 250, ?int $height = 250)
     {
 
@@ -81,7 +85,7 @@ class PictureService
         return $fichier;
     }
     // suppression des images sur le serveur
-    public function delete(UploadedFile $picture, ?string $folder = "", ?int $width = 250, ?int $height = 250)
+    public function delete(UploadedFile $picture, ?string $folder = "", ?int $width = 250, ?int $height = 250): bool
     {
         $success = false;
         $fichier = $picture->getClientOriginalName();
@@ -96,7 +100,6 @@ class PictureService
             unlink($orignal); //on supprime le fichier du répertoire
             $success = true;
         }
-
         return $success;
     }
 
@@ -132,13 +135,10 @@ class PictureService
         return $imageInfo;
     }
 
-    public function getBaseUrl()
+    public function getBaseUrl(): ?string
     {
         $request = $this->requestStack->getCurrentRequest();
-        if ($request) {
-            return $request->getSchemeAndHttpHost();
-        }
-        return null;
+        return $request?->getSchemeAndHttpHost();
     }
 
 }
