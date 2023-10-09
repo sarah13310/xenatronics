@@ -40,7 +40,7 @@ class PictureService
                 break;
             default:
                 throw new Exception("Format incorrect");
-                break;
+
         }
         // format de l'image
         $imageWidth = $infos['0'];
