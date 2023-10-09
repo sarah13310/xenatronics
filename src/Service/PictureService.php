@@ -84,26 +84,26 @@ class PictureService
     public function delete(UploadedFile $picture, ?string $folder = "", ?int $width = 250, ?int $height = 250)
     {
         $success = false;
-
-            $path = $this->params->get('images_directory') . $folder;
-            $mini = $path . "/mini" . $fichier;
-            $orignal = $path . "/" . $fichier;
-            if (!file_exists($mini)) {
-                unlink($mini); //on supprime la miniature du répertoire
-                $success = true;
-            }
-            if (!file_exists($orignal)) {
-                unlink($orignal); //on supprime le fichier du répertoire
-                $success = true;
-            }
+        $fichier = $picture->getClientOriginalName();
+        $path = $this->params->get('images_directory') . $folder;
+        $mini = $path . "/mini" . $fichier;
+        $orignal = $path . "/" . $fichier;
+        if (!file_exists($mini)) {
+            unlink($mini); //on supprime la miniature du répertoire
+            $success = true;
+        }
+        if (!file_exists($orignal)) {
+            unlink($orignal); //on supprime le fichier du répertoire
+            $success = true;
+        }
 
         return $success;
     }
 
     public function scandir($directory): array
     {
-        $baseUrl = $this->getBaseUrl()."/";
-        $filePath = $this->params->get('kernel.project_dir')."\\public\\".$directory;
+        $baseUrl = $this->getBaseUrl() . "/";
+        $filePath = $this->params->get('kernel.project_dir') . "\\public\\" . $directory;
 
         // Lecture des fichiers dans le répertoire
         $files = scandir($filePath);
@@ -119,7 +119,7 @@ class PictureService
                 // Obtention des informations sur le fichier
                 $fileInfo = array(
                     'name' => $file,
-                    'image' => $baseUrl.$directory."/".$file,
+                    'image' => $baseUrl . $directory . "/" . $file,
                     'path' => $imagePath,
                     'size' => filesize($imagePath),  // Taille en octets
                     'mime' => mime_content_type($imagePath),  // Type MIME
