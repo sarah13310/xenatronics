@@ -17,7 +17,7 @@ class PictureService
         $this->params = $params;
         $this->requestStack = $requestStack;
     }
-
+    // Ajout des images sur le serveur
     public function add(UploadedFile $picture, ?string $folder = "", ?int $width = 250, ?int $height = 250)
     {
 
@@ -80,7 +80,7 @@ class PictureService
         $picture->move($path . "/", $fichier);
         return $fichier;
     }
-
+    // suppression des images sur le serveur
     public function delete(UploadedFile $picture, ?string $folder = "", ?int $width = 250, ?int $height = 250)
     {
         $success = false;
@@ -100,6 +100,7 @@ class PictureService
         return $success;
     }
 
+    // lecture des répertoires
     public function scandir($directory): array
     {
         $baseUrl = $this->getBaseUrl() . "/";
