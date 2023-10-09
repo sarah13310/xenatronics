@@ -50,9 +50,9 @@ class LoginController extends AbstractController
 
 
     #[Route(path: '/logout', name: 'app.logout')]
-    public function logout(): void
+    public function logout(Request $request): void
     {
-        $this->getRequest()->getSession()->clear();
+        $request->getSession()->clear();
         //throw new \LogicException("Error Login");
     }
 

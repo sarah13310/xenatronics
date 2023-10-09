@@ -52,14 +52,14 @@
 
         name_f.addEventListener("input", (event) => {
             const inputValue = event.target.value;
-            if (inputValue != undefined) {
+            if (inputValue !== undefined) {
                 name_p.innerText = "Nom du projet : " + inputValue;
             }
         })
 
         link_f.addEventListener("input", (event) => {
             const inputValue = event.target.value;
-            if (inputValue != undefined) {
+            if (inputValue !== undefined) {
                 link_p.innerText = "Lien : " + inputValue;
             }
         })
@@ -71,7 +71,7 @@
                     reader.onload = function (e) {
                         image_p.src = e.target.result;
                     };
-                    reader.onerror = function (e) {
+                    reader.onerror = function () {
                         image_p.src = "/images/noimage.jpg";
                     };
                     reader.readAsDataURL(selectedFile);
