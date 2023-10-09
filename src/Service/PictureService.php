@@ -18,6 +18,10 @@ class PictureService
         $this->requestStack = $requestStack;
     }
     // Ajout des images sur le serveur
+
+    /**
+     * @throws Exception
+     */
     public function add(UploadedFile $picture, ?string $folder = "", ?int $width = 250, ?int $height = 250)
     {
 

@@ -214,7 +214,7 @@ form {
     top: -12px;
     left: 8px;
     border-radius: 6px;
-    border: 0.2px solid #a9a9a98c;
+    /*border: 0.2px solid #a9a9a98c;*/
 }
 
 .dropdown-item {
