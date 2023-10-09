@@ -84,7 +84,7 @@ class PictureService
     public function delete(UploadedFile $picture, ?string $folder = "", ?int $width = 250, ?int $height = 250)
     {
         $success = false;
-        if ($fichier !== 'default.webp') {
+
             $path = $this->params->get('images_directory') . $folder;
             $mini = $path . "/mini" . $fichier;
             $orignal = $path . "/" . $fichier;
@@ -96,7 +96,7 @@ class PictureService
                 unlink($orignal); //on supprime le fichier du répertoire
                 $success = true;
             }
-        }
+
         return $success;
     }
 
