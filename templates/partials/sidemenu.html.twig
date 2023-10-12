@@ -21,9 +21,12 @@
                     <a class="nav-link" href="https://github.com/"><span class="bi bi-github"></span>&nbsp;&nbsp;&nbsp;
                         GitHub </a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="{{ path('admin.image') }}"><span class="bi bi-image"></span>&nbsp;&nbsp;&nbsp;
-                        Images </a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle bi bi-image" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">&nbsp;&nbsp;&nbsp;&nbsp;Image</a>
+                    <div class="dropdown-menu" >
+                        <a class="dropdown-item" href="{{ path('admin.image') }}">Ajouter</a>
+                        <a class="dropdown-item" href="#">Gestion</a>
+                    </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle bi bi-journals" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">&nbsp;&nbsp;&nbsp;&nbsp;Folio</a>

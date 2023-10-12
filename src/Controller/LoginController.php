@@ -6,6 +6,7 @@ use App\Form\ForgetPasswordType;
 use App\Form\ResetPasswordType;
 use App\Repository\UserRepository;
 use App\Service\SendMailService;
+use App\Service\Util;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,20 +16,26 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class LoginController extends AbstractController
 {
-    private function loadmenu($file)
+    private Util $util;
+
+    public function __construct(Util $util)
     {
-        $people_json = file_get_contents($file);
-        $tab_json = json_decode($people_json, false);
-        return $tab_json;
+        $this->util = $util;
+        $this->menu=$util->createMenu();
     }
 
     #[Route(path: '/login', name: 'app.login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(SessionInterface   $session,AuthenticationUtils $authenticationUtils): Response
     {
+
         if ($this->getUser()) {
+            if ($this->getUser()->getAvatar()==null) {
+                $session->set("avatar", "images/blank.png");
+            }
             return $this->redirectToRoute('app.home', ['auth' => False]);
         }
 
@@ -39,11 +46,10 @@ class LoginController extends AbstractController
         if ($error){
             $this->addFlash('danger',$error->getMessage());
         }
-
         return $this->render('security/login.html.twig',
             ['last_username' => $lastUsername,
                 'label' =>"danger",
-                'menu' => $this->loadMenu("data/menu.json")
+                'menu' => $this->menu,
             ]
         );
     }
@@ -94,7 +100,7 @@ class LoginController extends AbstractController
         }
         return $this->render('security/forgetpassword.html.twig',
             [
-                'menu' => $this->loadMenu("data/menu.json"),
+                'menu' => $this->menu,
                 'form' => $form->createView(),
             ]
         );
@@ -129,7 +135,7 @@ class LoginController extends AbstractController
         // on va sur la page de changementdu mot de passe
         return $this->render('security/resetpassword.html.twig',
             [
-                'menu' => $this->loadMenu("data/menu.json"),
+                'menu' => $this->menu,
                 'form' => $form->createView(),
             ]
         );

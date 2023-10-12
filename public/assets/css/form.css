@@ -45,6 +45,7 @@
 .card2 {
     /*border: 0.25px solid lightgray;*/
     height: auto !important;
+    bottom: 8px;;
 }
 
 .rounded-top {
@@ -200,21 +201,18 @@ form {
     width: 100px;
     height: 100px;
     object-fit: cover;
-    background: black;
+    background: linear-gradient(#2d9edf,#e2eef49c) ;
     padding: 5px;
     border: 2px solid white;
     border-radius: 50%;
     margin: 0 auto;
 }
 
-.navbar-expand-lg .navbar-nav,
 .dropdown-menu {
-    position: relative;
+    position: relative!important;
     background: transparent;
-    top: -12px;
-    left: 8px;
-    border-radius: 6px;
-    /*border: 0.2px solid #a9a9a98c;*/
+    top: -20px!important;
+    left: 30px!important;
 }
 
 .dropdown-item {

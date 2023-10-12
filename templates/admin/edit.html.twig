@@ -1,85 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edtion{% endblock %}
-
-{% block stylesheets_custom %}
-    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/media.css') }}">
+{% block title %}Edtion
 {% endblock %}
 
 {% block right %}
-    <h1>Accueil</h1>
-    <div class="jumbotron">
-        <h4 class="display-6">Modifier</h4>
-        <p class="text-light">votre folio.</p>
-        <p></p>
-        <hr class="my-3">
-        <div class="col">
-            <div class="row">
-                {% include('partials/formfolio.html.twig') %}
-            </div>
-        </div>
-    </div>
-{% endblock %}
+	<div class="mt-3 p-2 bgo-80 card2 rounded">
+		<h1>Edition des projets</h1>
+		<div class="jumbotron">
+			<h4 class="display-6">Modifier</h4>
+			<p class="text-light">votre folio.</p>
+		</div>
+	</div>
+	<div class="col ms-1 mt-2">
+		<div class="row">
+			{% include('partials/formfolio.html.twig') %}
+		</div>
+	</div>
+</div>{% endblock %}{% block extrajs %}
+<script type="text/javascript" src="{{ asset('assets/js/common.js') }}"></script>
+<script type="text/javascript">
+	let name_f = document.getElementById("folio_name");
+let link_f = document.getElementById("folio_link");
+let image_f = document.getElementById("folio_icon");
+//
+let name_p = document.getElementById("name");
+let link_p = document.getElementById("link");
+let image_p = document.getElementById("image_preview");
+const fileInput = document.querySelector('input[type="file"]');
+// Create a new File object
+const myFile = new File(['Hello World!'], '{{ folio.icon }}', {
+type: 'text/plain',
+lastModified: new Date()
+});
+// Now let's create a DataTransfer to get a FileList
+const dataTransfer = new DataTransfer();
+dataTransfer.items.add(myFile);
+fileInput.files = dataTransfer.files;
 
-{% block extrajs %}
-    <script type="text/javascript" src="{{ asset('js/common.js') }}"></script>
-    <script type="text/javascript">
-        let name_f = document.getElementById("folio_name");
-        let link_f = document.getElementById("folio_link");
-        let image_f = document.getElementById("folio_image");
+name_p.innerHTML = "Nom du projet : <b> {{ folio.name }}</b>";
+link_p.innerHTML = "Lien : <small><b> {{ folio.link }}</b></small>";
+image_p.src ="{{ folio.icon }}";
 
-        let name_p = document.getElementById("name");
-        let link_p = document.getElementById("link");
-        let image_p = document.getElementById("image_preview");
-        const fileInput = document.querySelector('input[type="file"]');
+name_f.addEventListener("input", (event) => {
+const inputValue = event.target.value;
+if (inputValue !== undefined) {
+name_p.innerText = "Nom du projet : " + inputValue;
+}
+});
 
-        // Create a new File object
-        const myFile = new File(['Hello World!'], '{{folio.icon }}', {
-            type: 'text/plain',
-            lastModified: new Date(),
-        });
+link_f.addEventListener("input", (event) => {
+const inputValue = event.target.value;
+if (inputValue !== undefined) {
+link_p.innerText = "Lien : " + inputValue;
+}
+});
 
-        // Now let's create a DataTransfer to get a FileList
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(myFile);
-        fileInput.files = dataTransfer.files;
-
-        name_p.innerHTML = "Nom du projet : <b>{{ folio.name }}</b>";
-        link_p.innerHTML = "Lien : <small><b>{{ folio.link }}</b></small>";
-        image_p.src="{{ folio.icon }}";
-
-        name_f.addEventListener("input", (event) => {
-            const inputValue = event.target.value;
-            if (inputValue !== undefined) {
-                name_p.innerText = "Nom du projet : " + inputValue;
-            }
-        })
-
-        link_f.addEventListener("input", (event) => {
-            const inputValue = event.target.value;
-            if (inputValue !== undefined) {
-                link_p.innerText = "Lien : " + inputValue;
-            }
-        })
-
-        image_f.addEventListener('change', function (event) {
-                const selectedFile = event.target.files[0];
-                if (selectedFile) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        image_p.src = e.target.result;
-                    };
-                    reader.onerror = function () {
-                        image_p.src = "/images/noimage.jpg";
-                    };
-                    reader.readAsDataURL(selectedFile);
-                }
-            }
-        );
-
-
-
-    </script>
-{% endblock %}
+image_f.addEventListener('change', function (event) {
+const selectedFile = event.target.files[0];
+loadFileImage(selectedFile);
+});
+</script>{% endblock %}

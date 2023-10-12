@@ -3,9 +3,9 @@
 {% block title %}Test{% endblock %}
 
 {% block stylesheets_custom %}
-    <link rel="stylesheet" href="css/form.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/media.css">
+    <link rel="stylesheet" href="../../public/assets/css/form.css">
+    <link rel="stylesheet" href="../../public/assets/css/style.css">
+    <link rel="stylesheet" href="../../public/assets/css/media.css">
 {% endblock %}
 
 {% block right %}
@@ -32,7 +32,7 @@
                 {% for folio in pagination %}
                     <tr>
                         <td class="tdid collapse">{{ folio.id }}</td>
-                        <td><img class="frame-img" src="/images/loading.gif" alt="loading..."></td>
+                        <td><img class="frame-img" src="/assets/images/loading.gif" alt="loading..."></td>
                         <td>{{ folio.name }}</td>
                         <td>{{ folio.link }}</td>
                         <td class="tdimage collapse">{{ folio.icon }}</td>
@@ -50,7 +50,7 @@
 {% endblock %}
 
 {% block extrajs %}
-    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="../../public/assets/js/common.js"></script>
     <script type="text/javascript">
         let tr_id = null;
         const menu = document.getElementById("menu");

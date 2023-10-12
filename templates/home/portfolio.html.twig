@@ -1,14 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Accueil{% endblock %}
-{% block stylesheets_custom %}
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/form.css">
-    <link rel="stylesheet" href="css/media.css">
-
-
-{% endblock %}
-
 
 {% block right %}
     <h1>Portfolio</h1>
@@ -20,23 +12,19 @@
         <p class="text-light">Découvrez comment j'ai utilisé divers langages pour concrétiser des projets
             innovants et fonctionnels.</p>
         <hr class="my-3">
-        {#        <p class="lead"> #}
-        {#            <a class="btn btn-primary btn-lg" href="#" role="button">En savoir plus</a> #}
-        {#        </p> #}
     </div>
     <div class="frameMain">
         <div class="frameGrid">
-
         </div>
     </div>
 {% endblock %}
 
 
 {% block extrajs %}
-    <script type="text/javascript" src="js/common.js"></script>
-    <script type="text/javascript" src="/js/folio.js"></script>
+    <script type="text/javascript" src="assets/js/common.js"></script>
+    <script type="text/javascript" src="assets/js/folio.js"></script>
     <script type="text/javascript">
-        //loadMenu('data/menu.json')
-        loadFolios('data/folios.json')
+        loadFolios('data/folios.json');
+        loadDefaultLogo();
     </script>
 {% endblock %}

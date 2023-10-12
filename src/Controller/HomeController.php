@@ -12,17 +12,16 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class HomeController extends AbstractController
 {
-    private Util $util;
 
     public function __construct(Util $util)
     {
-        $this->util = $util;
-        $this->menu = $this->util->loadmenu("data/menu.json");
+        $this->menu=$util->createMenu();
     }
 
     #[Route('/', name: 'app.home')]
     public function index(): Response
     {
+        //dd($this->util->createMenu());
         return $this->render('home/index.html.twig', [
             'menu' => $this->menu,
         ]);

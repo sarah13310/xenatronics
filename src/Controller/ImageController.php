@@ -13,12 +13,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ImageController extends AbstractController
 {
-    private Util $util;
+
 
     public function __construct(Util $util)
     {
-        $this->util = $util;
-        $this->menu = $this->util->loadmenu("data/menu.json");
+        $this->menu = $util->createMenu();
     }
 
 
@@ -51,7 +50,8 @@ class ImageController extends AbstractController
 //            }
 //
 //        }
-        return $this->render('image/index.html.twig', ['menu' => $this->menu,
+        return $this->render('image/index.html.twig', [
+            'menu' => $this->menu,
             'form' => $form->createView(),]);
     }
 }

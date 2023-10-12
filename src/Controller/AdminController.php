@@ -16,12 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
-    private Util $util;
 
     public function __construct(Util $util)
     {
-        $this->util = $util;
-        $this->menu = $this->util->loadmenu("data/menu.json");
+        $this->menu = $util->createMenu();
     }
 
     #[Route('/admin/folio/add', name: 'admin.folio.add')]

@@ -21,5 +21,33 @@ async function loadSocials(file) {
     }
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+}
 
+function loadImage(element, url) {
+    let image = new Image();
+    image.onload = () => {
+        element.src = image.src;
+    }
+    image.onerror = () => {
+        element.src = "../assets/images/noimage.jpg"
+    }
+    image.src = url;
+}
+
+function loadFileImage(selectedFile) {
+    if (selectedFile) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            image_p.src = e.target.result;
+        };
+        reader.onerror = () => {
+            image_p.src = "/assets/images/noimage.jpg";
+        };
+        reader.readAsDataURL(selectedFile);
+    }
+}
+
+function loadDefaultLogo(){
+    const logo=document.querySelector(".logo-img")
+    loadImage(logo,"../assets/images/blank.png");
 }

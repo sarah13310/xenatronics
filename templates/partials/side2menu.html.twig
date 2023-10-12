@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand text-center" >{{ app.session.get('name') }}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenuPop"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse" id="navbarMenuPop">
+        <ul class="navbar-nav w-100">
+            {% if not app.user %}
+            <li class='nav-item '>
+                <a class="nav-link" href="{{ path('app.login')}}"><span class='bi bi-box-arrow-in-right'></span>&nbsp;&nbsp;&nbsp;Se Connecter</a>
+            </li>
+            {% endif %}
+            {% if app.user %}
+                <img class="logo-img mb-2" src="{{ app.session.get('avatar') }}">
+                <li class="nav-item small w-100 text-center">
+                    Vous êtes connecté en tant que <br/>
+                    <span class="gray">{{ app.user.userIdentifier }}</span>
+                </li>
+            {% endif %}
+            {{ menu|raw }}
+            {% if app.user %}
+                <li class='nav-item '>
+                    <a class="nav-link" href="{{ path('app.logout')}}"><span class='bi bi-box-arrow-right'></span>&nbsp;&nbsp;&nbsp;Déconnexion</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

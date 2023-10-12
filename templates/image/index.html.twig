@@ -2,42 +2,20 @@
 
 {% block title %}Les images{% endblock %}
 
-{% block stylesheets_custom %}
-    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/media.css') }}">
-{% endblock %}
-
 {% block right %}
     <h1>Gestion des images</h1>
     <div class="jumbotron">
         <h4 class="display-6">Sélectionnez un moyen pour télécharger vos images</h4>
-{#        <p class="text-light">Télécharger et visualiser les images</p>#}
         <p></p>
         <hr class="my-3">
         <div class="col-5">
             {% include('partials/formimage.html.twig') %}
-{#            <form name="picture" method="POST" class="card p-2 bg-opaque75 rounded text-light" action="{{ path('admin.image') }}" enctype="multipart/form-data">#}
-{#                <div>#}
-{#                    <p class="ms-2">Charger votre fichier à partir d'un dossier</p>#}
-{#                    <input name="inputfile" id="inputfile" type="file" class="form-control">#}
-{#                </div>#}
-{#                <div class="separator my-2">OU</div>#}
-{#                <p class="ms-2 mt-2">Déposez votre fichier dans la zone ci-dessous</p>#}
-{#                <div ondrop="dropHandler(event)" ondragover="dragOverHandler(event)" id="drop-area" class="dragdrop">#}
-{#                    <p id="message">Veuillez glisser et déposer un fichier image ici.<br>La taille du fichier ne doit pas dépasser 2Mo.</p>#}
-{#                    <img src="{{ asset('images/noimage.jpg') }}" alt="imagepreview" id="image"#}
-{#                         class="p-2 thumb collapse"/>#}
-{#                </div>#}
-{#                <button type="submit" class="btn btn-primary mt-2">Valider</button>#}
-{#            </form>#}
         </div>
-
     </div>
 {% endblock %}
 
 {% block extrajs %}
-    <script type="text/javascript" src="{{ asset('js/common.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/common.js') }}"></script>
     <script type="text/javascript">
         let dropArea = document.getElementById('drop-area');
         let imagePreview = document.getElementById('image');
@@ -51,7 +29,7 @@
             if (files.length > 0) {
                 const imageFile = files[0];
                 loadPreview(imageFile);
-                inputfile.value=imageFile.name;
+                inputfile.value = imageFile.name;
             }
         }
 

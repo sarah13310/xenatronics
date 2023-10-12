@@ -8,7 +8,7 @@ async function loadFolios(file) {
     const response = await fetch(file);
     folios = await response.json();
     for (const folio of folios) {
-        frameGrid.innerHTML += `<div class="folio scale">${folio.name}<img class='scale' onClick="onImage('${folio.link}')" src="/images/loading.gif" alt="folio image"></div>`
+        frameGrid.innerHTML += `<div class="folio scale">${folio.name}<img class='scale' onClick="onImage('${folio.link}')" src="/assets/images/loading.gif" alt="folio image"></div>`
     }
     const tabfolios = document.querySelectorAll('.folio');
     await preloadImages(folios).then((images) => {
@@ -17,7 +17,6 @@ async function loadFolios(file) {
                 let folioCur = tabfolios[indice];
                 let imgCur = folioCur.childNodes[1];
                 imgCur.style = "width:80%;height:80%;";
-
                 imgCur.src = image.src
                 indice += 1;
             }
@@ -31,7 +30,7 @@ function preloadImages(imagePaths) {
             const img = new Image();
             img.onload = () => resolve(img);
             img.onerror = () => {
-                img.src = "/images/noimage.jpg";
+                img.src = "/assets/images/noimage.jpg";
                 resolve(img)
             };
             img.src = imagePath.image;

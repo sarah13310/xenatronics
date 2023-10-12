@@ -1,8 +1,8 @@
 [
-  {"name": "qFont","link": "https://github.com/sarah13310/qtFont","image": "/images/qfont.png" },
-  {"name": "MaFormation","link": "https://github.com/sarah13310/MaFormation" , "image": "/images/maformation.png"},
-  {"name": "clock","link": "https://github.com/sarah13310/clock", "image": "/images/clock.png" },
-  {"name": "xenatronics","link": "https://github.com/sarah13310/xenatronics", "image": "/images/site-xen.jpg" },
-  {"name": "mycv","link": "https://github.com/sarah13310/mycv", "image": "/images/mycv.jpg" }
+  {"name": "qFont","link": "https://github.com/sarah13310/qtFont","image": "/assets/images/qfont.png" },
+  {"name": "MaFormation","link": "https://github.com/sarah13310/MaFormation" , "image": "/assets/images/maformation.png"},
+  {"name": "clock","link": "https://github.com/sarah13310/clock", "image": "/assets/images/clock.png" },
+  {"name": "xenatronics","link": "https://github.com/sarah13310/xenatronics", "image": "/assets/images/site-xen.jpg" },
+  {"name": "mycv","link": "https://github.com/sarah13310/mycv", "image": "/assets/images/mycv.jpg" }
 
 ]
