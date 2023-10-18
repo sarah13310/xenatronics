@@ -20,11 +20,10 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends AbstractController
 {
-    private Util $util;
 
-    public function __construct(Util $util)
+
+    public function __construct(private Util $util)
     {
-        $this->util = $util;
         $this->menu = $util->createMenu();
     }
 
