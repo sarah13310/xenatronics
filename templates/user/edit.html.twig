@@ -26,9 +26,11 @@
         const modal = new bootstrap.Modal(modalAvatar);
         let select_role = document.querySelector('#user_roles');
 
-        let isVerified = false;
+
         {% if user.isVerified %}
-        isVerified = true;
+        let isVerified = true;
+        {% else %}
+        let isVerified = false;
         {% endif %}
         let roles = "{{ user.getRoles()[0] }}";
 
