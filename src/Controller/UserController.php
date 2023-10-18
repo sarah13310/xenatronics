@@ -7,7 +7,6 @@ use App\Form\UserType;
 use App\Form\UserTypeCreate;
 use App\Repository\UserRepository;
 use App\Service\PictureService;
-use App\Service\SecretTokenService;
 use App\Service\SendMailService;
 use App\Service\Util;
 use Doctrine\ORM\EntityManagerInterface;
