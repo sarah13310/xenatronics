@@ -8,11 +8,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'Ce compte existe déjà avec cette adresse mail')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use Trait\CreatedAt;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -21,11 +24,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column]
-    private array $roles = ['ROLE_ADMIN', 'ROLE_USER'];
+    #[ORM\Column ]
+    private array $roles = ['ROLE_USER'];
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $googleId;
+
+
+    public function __construct(){
+        $this->createdAt= new \DateTimeImmutable();
+    }
 
     /**
      * @return mixed
@@ -76,7 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private $avatar;
+    private $avatar="/assets/images/noimage.jpg";
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $hostedDomain;
@@ -90,11 +98,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 96, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $resetToken = null;
+    #[ORM\Column(length: 100,nullable: true)]
+    private ?string $resetToken = "";
 
     #[ORM\Column]
-    private ?bool $isVerified = null;
+    private ?bool $isVerified = false;
+
+    #[ORM\Column(length: 1)]
+    private ?string $access = null;
+
 
     public function getId(): ?int
     {
@@ -128,8 +140,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
         return array_unique($roles);
     }
 
@@ -170,7 +180,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setName(?string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -182,7 +191,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setResetToken(string $resetToken): static
     {
         $this->resetToken = $resetToken;
-
         return $this;
     }
 
@@ -194,7 +202,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
-
         return $this;
     }
+
+    public function getAccess(): ?string
+    {
+        return $this->access;
+    }
+
+    public function setAccess(string $access): static
+    {
+        $this->access = $access;
+        return $this;
+    }
+
+
 }

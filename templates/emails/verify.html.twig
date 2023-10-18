@@ -1,0 +1,9 @@
+{% if user %}
+    <p><b>Bonjour '{{ (user.email is not null) ? user.email:"" }}',</b></p>
+{% else %}
+    <p><b>Bonjour,</b></p>
+{% endif %}
+<p>Pour confirmer votre adresse mail, veuillez cliquer sur le lien suivant : <br>
+    <a href="{{ url|raw }}">{{ url|raw }}</a></p>
+<p>Merci</p>
+<p><b>Service administration du site</b></p>

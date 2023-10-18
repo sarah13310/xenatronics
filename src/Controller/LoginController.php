@@ -11,12 +11,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class LoginController extends AbstractController
 {
@@ -25,16 +25,16 @@ class LoginController extends AbstractController
     public function __construct(Util $util)
     {
         $this->util = $util;
-        $this->menu=$util->createMenu();
+        $this->menu = $util->createMenu();
     }
 
     #[Route(path: '/login', name: 'app.login')]
-    public function login(SessionInterface   $session,AuthenticationUtils $authenticationUtils): Response
+    public function login(SessionInterface $session, AuthenticationUtils $authenticationUtils): Response
     {
 
         if ($this->getUser()) {
-            if ($this->getUser()->getAvatar()==null) {
-                $session->set("avatar", "images/blank.png");
+            if ($this->getUser()->getAvatar() == null) {
+                $session->set("avatar", "/assets/images/blank.png");
             }
             return $this->redirectToRoute('app.home', ['auth' => False]);
         }
@@ -43,17 +43,16 @@ class LoginController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
-        if ($error){
-            $this->addFlash('danger',$error->getMessage());
+        if ($error) {
+            $this->addFlash('danger', $error->getMessage());
         }
         return $this->render('security/login.html.twig',
             ['last_username' => $lastUsername,
-                'label' =>"danger",
+                'label' => "danger",
                 'menu' => $this->menu,
             ]
         );
     }
-
 
     #[Route(path: '/logout', name: 'app.logout')]
     public function logout(Request $request): void
@@ -87,7 +86,7 @@ class LoginController extends AbstractController
                 $mail->send(
                     'no-reply@xendev.me',
                     //$user->getEmail(),
-                    'sarah13310@proton.me',
+                    'pg@proton.me',
                     'Réinitialisation de mot de passe',
                     'register',
                     $context
@@ -139,5 +138,41 @@ class LoginController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
+    }
+
+    #[Route(path: '/mail/verify/{token}', name: 'mail.verify')]
+    public function mail_verify(Request                $request,
+                                string                 $token,
+                                UserRepository         $userRepository,
+                                EntityManagerInterface $entityManager): Response
+    {
+        $user = $userRepository->findOneBy(["resetToken" => $token]);
+        $user->setIsVerified(true);
+        $user->setResetToken("");
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return $this->redirectToRoute('user.list');
+    }
+
+    #[Route(path: '/mail/send/{token}', name: 'mail.send')]
+    public function mail_send(string          $token,
+                              Request         $request,
+                              UserRepository  $userRepository,
+                              SendMailService $mail): Response
+    {
+        $user = $userRepository->findOneBy(["resetToken" => $token]);
+
+        $url = $this->generateUrl('mail.verify', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
+        // On crée les données du mail
+        $context = compact('url', 'user');
+        $mail->send(
+            'no-reply@xendev.me',
+            //$user->getEmail(),
+            'pg@proton.me',
+            'Vérification du compte',
+            'verify',
+            $context
+        );
+        return $this->redirectToRoute('app.home');
     }
 }

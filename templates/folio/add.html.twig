@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter{% endblock %}
+
+{% block right %}
+    <h1>Accueil</h1>
+    <div class="jumbotron">
+        <h4 class="display-6">Ajouter</h4>
+        <p></p>
+        <hr class="my-3">
+        <div class="col">
+            <div class="row">
+                {% include('partials/formuser.html.twig') %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extrajs %}
+    <script type="text/javascript" src="{{ asset('assets/js/common.js') }}"></script>
+    <script type="text/javascript">
+        let name_f = document.getElementById("folio_name");
+        let link_f = document.getElementById("folio_link");
+        let image_f = document.getElementById("folio_icon");
+
+        let name_p = document.getElementById("name");
+        let link_p = document.getElementById("link");
+        let image_p = document.getElementById("image_preview");
+
+        name_f.addEventListener("input", (event) => {
+            const inputValue = event.target.value;
+            if (inputValue) {
+                name_p.innerText = "Nom du projet : " + inputValue;
+            }
+        });
+
+        link_f.addEventListener("input", (event) => {
+            const inputValue = event.target.value;
+            if (inputValue) {
+                link_p.innerText = "Lien : " + inputValue;
+            }
+        });
+
+        image_f.addEventListener('change', function (event) {
+                const selectedFile = event.target.files[0];
+                loadFileImage(selectedFile);
+            }
+        );
+
+    </script>
+{% endblock %}

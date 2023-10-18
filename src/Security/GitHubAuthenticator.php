@@ -56,7 +56,10 @@ class GitHubAuthenticator extends OAuth2Authenticator
                     $existingUser->setGoogleId($response['id']);
                     $existingUser->setName($response['name']);
                     $existingUser->setAvatar($response['avatar_url']);
+                    $existingUser->setAccess("H");
+                    $existingUser->setIsVerified(false);
                     $this->entityManager->persist($existingUser);
+
                 }
                 $this->entityManager->flush(); // On écrit la requête dans la table USER
                 return $existingUser;
@@ -72,6 +75,7 @@ class GitHubAuthenticator extends OAuth2Authenticator
         $name=$token->getUser()->getName();
         $request->getSession()->set('avatar', $avatar);
         $request->getSession()->set('name', $name);
+
 
         return new RedirectResponse(
             $this->router->generate('app.home')

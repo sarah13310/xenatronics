@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+{% block title %}Tableau de bord
+{% endblock %}
+
+
+{% block right %}
+	{{ include('partials/modal_delete.html.twig') }}
+	<div id="menu" class="menu collapse">
+		<div onclick="onAction(this,'edit')" class="menu-item">
+			<i class="bi bi-pencil"></i>&nbsp;Edition</div>
+		<div onclick="onAction(this,'delete')" class="menu-item">
+			<i class="bi bi-trash"></i>&nbsp;Supprimer</div>
+	</div>
+	<div class="mt-3 px-3 p-2 bgo-80 card2 rounded">
+		<h1>Tableau de bord</h1>
+		<div class="jumbotron">
+			<p class="text-light">Gérer vos projets</p>
+		</div>
+	</div>
+	{{ include('partials/flash.html.twig') }}
+	<div class="card mt-2 bgo-75 p-1">
+		<table class="rounded table table-primary table-hover table-striped">
+			<thead>
+				<tr>
+					<th class="thead rounded-l-top " colspan="2" scope="col">Nom</th>
+					<th class="thead" scope="col">Lien</th>
+					<th class="thead rounded-r-top" scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for folio in pagination %}
+					<tr>
+						<td class="tdid collapse">{{ folio.id }}</td>
+						<td><img class="frame-img" src="/assets/images/loading.gif" alt="loading..."></td>
+						<td>{{ folio.name }}</td>
+						<td>{{ folio.link }}</td>
+						<td class="tdimage collapse">{{ folio.icon }}</td>
+						<td>
+							<button onmouseenter="showContext(this);" class="btn btn-primary bi bi-three-dots "></button>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{{ knp_pagination_render(pagination) }}
+	</div>
+</div>{% endblock %}{% block extrajs %}
+<script type="text/javascript" src="{{ asset('assets/js/common.js') }}"></script>
+<script type="text/javascript">
+	let tr_id = null;
+let tr_name = "";
+const menu = document.getElementById("menu");
+const modal = document.getElementById("modalDelete")
+const myModal = new bootstrap.Modal(modal);
+const tbody = document.querySelectorAll("tbody tr");
+
+tbody.forEach((item) => {
+item.addEventListener("mouseenter", hideMenu);
+});
+
+modal.addEventListener("show.bs.modal", function () {
+document.getElementById('message').innerHTML = "Voulez-vous supprimer le projet '<b>" + tr_name + "</b>' ?";
+});
+
+
+let imagesSrc = document.querySelectorAll(".tdimage");
+let images = document.querySelectorAll(".frame-img");
+
+for (let i = 0; i < imagesSrc.length; i++) {
+let image = imagesSrc[i].innerText;
+loadImage(images[i], image);
+}
+menu.addEventListener("mouseleave", hideMenu);
+
+function showContext(button) {
+const buttonRect = button.getBoundingClientRect();
+menu.style.top = `${
+buttonRect.bottom - 10
+}px`;
+menu.style.left = `${
+buttonRect.left - 6
+}px`;
+// Afficher le menu
+menu.classList.remove("collapse");
+tr_id = button.parentElement.parentElement.children[0].innerText;
+tr_name = button.parentElement.parentElement.children[2].innerText;
+}
+
+function hideMenu() {
+menu.classList.add("collapse");
+}
+
+
+function onAction(elem, action) {
+
+switch (action) {
+case "edit": onSubmit('edit');
+break;
+
+case "delete": myModal.show();
+break;
+
+default:
+break;
+}
+}
+// suppression du projet
+function onSubmit(action) {
+window.location.href = "/admin/folio/" + action + "/" + tr_id;
+}
+</script>{% endblock %}

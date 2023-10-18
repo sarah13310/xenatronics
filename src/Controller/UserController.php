@@ -4,26 +4,30 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\UserTypeCreate;
 use App\Repository\UserRepository;
+use App\Service\PictureService;
+use App\Service\SecretTokenService;
+use App\Service\SendMailService;
 use App\Service\Util;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\PictureService;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class UserController extends AbstractController
 {
-    private Util $util;
     private UserRepository $repo;
 
     public function __construct(Util $util, UserRepository $repo)
     {
         $this->repo = $repo;
-        $this->util = $util;
-        $this->menu = $this->util->loadmenu("data/menu.json");
+        $this->menu = $util->createMenu();
     }
 
     #[Route('/user/list', name: 'user.list')]
@@ -39,53 +43,99 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/add', name: 'user.add')]
-    public function user_add(Request $request, EntityManagerInterface $em, PictureService $ps): Response
+    public function user_add(Request                     $request,
+                             EntityManagerInterface      $em,
+                             PictureService              $ps,
+                             UserPasswordHasherInterface $userPasswordHasher,
+                             SendMailService             $mail,
+                             TokenGeneratorInterface     $tokenGenerator): Response
     {
-        $carousel = [
-            ['name' => "item1", "image" => "/images/avatars/avatar-1.jpg"],
-            ['name' => "item2", "image" => "/images/avatars/avatar-2.jpg"],
-            ['name' => "item3", "image" => "/images/avatars/avatar-3.jpg"],
-            ['name' => "item4", "image" => "/images/avatars/avatar-4.jpg"],
-            ['name' => "item5", "image" => "/images/avatars/avatar-5.jpg"],
-            ['name' => "item6", "image" => "/images/avatars/avatar-6.jpg"],
-            ['name' => "item7", "image" => "/images/avatars/avatar-7.jpg"],
-            ['name' => "item8", "image" => "/images/avatars/avatar-8.jpg"],
-            ['name' => "item9", "image" => "/images/avatars/avatar-9.jpg"]
-        ];
-
         $rootPath = $this->getParameter('kernel.project_dir');
-        //$baseUrl = $request->getSchemeAndHttpHost();
-        $files=$ps->scandir("images/avatars");
-
+        $files = $ps->scandir("assets/images/avatars");
 
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserTypeCreate::class, $user);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
+            $image = $form->get('avatar')->getData();
+
+            if ($image !== null) {
+                $user->setAvatar("/assets/images/" . $image->getClientOriginalName());
+            } else {
+                $user->setAvatar("/assets/images/noimage.jpg");
+            }
+            $token = $tokenGenerator->generateToken();
+            $user->setResetToken($token);
+            $user->setIsVerified(true);
+            $user->setAccess("M");
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('success', 'Compte <b>'.$user->getName(). '</b> créé');
+
+            return $this->redirectToRoute('user.list');
         }
         return $this->render('user/add.html.twig', [
             'menu' => $this->menu,
             'form' => $form->createView(),
             'carousel' => $files,
+            'action' => 'add',
         ]);
     }
 
     #[Route('/user/edit/{id}', name: 'user.edit')]
-    public function user_edit(int $id, UserRepository $repo): Response
+    public function user_edit(Request                $request,
+                              int                    $id,
+                              UserRepository         $repo,
+                              EntityManagerInterface $em,
+                              PictureService         $ps
+    ): Response
     {
-        $user = $this->repo->findByOne(["id" => $id]);
+        $files = $ps->scandir("assets/images/avatars");
+
+        $user = $this->repo->findOneBy(["id" => $id]);
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $image = $form->get('avatar')->getData();
+            if ($image !== null) {
+                $user->setAvatar("/assets/images/" . $image->getClientOriginalName());
+            } else {
+                $user->setAvatar("/assets/images/noimage.jpg");
+            }
+            $em->persist($user);
+            $em->flush();
+            return $this->redirectToRoute("user.list");
+        }
+
         return $this->render('user/edit.html.twig', [
             'menu' => $this->menu,
+            'form' => $form->createView(),
+            'user' => $user,
+            'carousel' => $files,
+            'action' => 'edit',
         ]);
     }
 
     #[Route('/user/delete/{id}', name: 'user.delete')]
-    public function user_delete(int $id, UserRepository $repo): Response
+    public function user_delete(int $id,
+                                UserRepository $repo,
+                                EntityManagerInterface $em): Response
     {
-        $user = $this->repo->findByOne(["id" => $id]);
-        return $this->redirectToRoute('user.list', [
-
-        ]);
+        $user = $this->repo->findOneBy(["id" => $id]);
+        if ($user) {
+            $em->remove($user);
+            $em->flush();
+        }
+        return $this->redirectToRoute('user.list', []);
     }
 }

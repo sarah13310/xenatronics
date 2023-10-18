@@ -55,27 +55,34 @@ class Util
     }
 
 
-    public function createMenu($type = "admin", $bConnected = False)
+    public function createMenu($type = "ROLE_ADMIN", $bConnected = False)
     {
         $menu = "";
         $menu_sub = "";
         switch ($type) {
-            case 'admin':
-                $menu_sub = $this->startDropMenu("Image", "bi bi-image");
+            case 'ROLE_SADMIN':
+            case 'ROLE_ADMIN':
+                // Utilisateurs
+                $menu_sub .= $this->startDropMenu("Utilisateurs", "bi bi-person");
+                $menu_sub .= $this->addDropMenuItem("Liste", "user.list");
+                $menu_sub .= $this->addDropMenuItem("Nouveau", "user.add");
+                $menu_sub .= $this->endDropMenu();
+                //Images
+                $menu_sub .= $this->startDropMenu("Image", "bi bi-image");
                 $menu_sub .= $this->addDropMenuItem("Liste", "admin.image");
                 $menu_sub .= $this->addDropMenuItem("Gestion", "admin.image");
                 $menu_sub .= $this->endDropMenu();
-                //
+                // folios
                 $menu_sub .= $this->startDropMenu("Folio", "bi bi-journals");
                 $menu_sub .= $this->addDropMenuItem("Liste", "portfolio");
-                $menu_sub .= $this->addDropMenuItem("Gestion", "admin.dashboard");
+                $menu_sub .= $this->addDropMenuItem("Gestion", "folio.dashboard");
                 $menu_sub .= $this->endDropMenu();
                 break;
-            case 'user':
-                $menu_sub = $this->startDropMenu("Image", "bi bi-image");
-                $menu_sub .= $this->addDropMenuItem("Liste", "admin.image");
-                $menu_sub .= $this->addDropMenuItem("Gestion", "admin.image");
-                $menu_sub .= $this->endDropMenu();
+            case 'ROLE_USER':
+//                $menu_sub = $this->startDropMenu("Image", "bi bi-image");
+//                $menu_sub .= $this->addDropMenuItem("Liste", "admin.image");
+//                $menu_sub .= $this->addDropMenuItem("Gestion", "admin.image");
+//                $menu_sub .= $this->endDropMenu();
                 //
                 $menu_sub .= $this->startDropMenu("Folio", "bi bi-journals");
                 $menu_sub .= $this->addDropMenuItem("Liste", "portfolio");

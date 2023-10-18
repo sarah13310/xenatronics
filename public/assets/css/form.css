@@ -375,10 +375,8 @@ table {
     align-items: center;
     justify-content: center;
     padding: 0;
-
     text-align: center;
     background: 0 0;
-
     opacity: .5;
     transition: opacity .15s ease;
     background: darkgray;

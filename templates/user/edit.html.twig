@@ -1,20 +1,132 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}EDiter utilisateur{% endblock %}
+{% block title %}Modifier{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block right %}
+    {% include('partials/formcarouselavatars.html.twig') %}
+    <div class="mt-3 px-3 p-2 bgo-80 card2 rounded">
+        <h1>Modifier</h1>
+        <div class="jumbotron">
+            <h4 class="display-6">Les informations</h4>
+        </div>
+    </div>
+    <div class="col">
+        <div class="row ms-0">
+            {% include('partials/formuser.html.twig') %}
+        </div>
+    </div>
+    </div>
+{% endblock %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+{% block extrajs %}
+    <script type="text/javascript" src="{{ asset('assets/js/common.js') }}"></script>
+    <script type="text/javascript">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'E:/xen2/src/Controller/UserController.php'|file_link(0) }}">src/Controller/UserController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'E:/xen2/templates/user/index.html.twig'|file_link(0) }}">templates/user/index.html.twig</a></code></li>
-    </ul>
-</div>
+        let modalAvatar = document.querySelector('#modalAvatar');
+        const modal = new bootstrap.Modal(modalAvatar);
+        let select_role = document.querySelector('#user_roles');
+
+        let isVerified = false;
+        {% if user.isVerified %}
+        isVerified = true;
+        {% endif %}
+        let roles = "{{ user.getRoles()[0] }}";
+
+        showRoles(roles);
+        showStatus(isVerified);
+
+
+        const myCarousel = document.getElementById('myCarousel')
+        const carousel = new bootstrap.Carousel(myCarousel);
+
+        const prev = document.querySelector(".carousel-control-prev");
+        const next = document.querySelector(".carousel-control-next");
+
+
+        setFile('{{ user.avatar }}');
+
+        function setFile(file) {
+            const myFile = new File(['fichier avatar!'], file, {
+                type: 'text/plain',
+                lastModified: new Date()
+            });
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(myFile);
+            user_avatar.files = dataTransfer.files;
+        }
+
+        prev.addEventListener("click", function () {
+            carousel.prev();
+        });
+        next.addEventListener("click", function () {
+            carousel.next();
+        });
+
+        let name_p = document.getElementById("name");
+        let email_p = document.getElementById("email");
+        let image_p = document.getElementById("image_preview");
+
+        image_p.src = "{{ user.avatar }}";
+        name_p.innerText = "Nom: " + user_name.value;
+        email_p.innerText = "E-mail: " + user_email.value;
+
+        user_roles.addEventListener("change", (event) => {
+            const inputValue = event.target.value;
+
+            if (inputValue) {
+                showRoles(inputValue);
+            }
+        })
+
+        user_name.addEventListener("input", (event) => {
+            const inputValue = event.target.value;
+            if (inputValue) {
+                name_p.innerText = "Nom: " + inputValue;
+            }
+        });
+
+        user_email.addEventListener("input", (event) => {
+            const inputValue = event.target.value;
+            if (inputValue) {
+                email_p.innerText = "E-mail: " + inputValue;
+            }
+        });
+
+
+        user_avatar.addEventListener('change', function (event) {
+                const selectedFile = event.target.files[0];
+                if (selectedFile) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        image_p.src = e.target.result;
+                        //folio[2].value=selectedFile.name;
+                    };
+                    reader.onerror = () => {
+                        image_p.src = "/assets/images/noimage.jpg";
+                    };
+                    reader.readAsDataURL(selectedFile);
+                }
+            }
+        );
+
+        function onAvatar() {
+            modal.show();
+        }
+
+        function onSubmit(action) {
+            switch (action) {
+                case "select":
+                    let item = document.querySelector(".carousel-item.active");
+                    setTimeout(() => {
+                        modal.hide();
+                        let files = item.firstElementChild.src.split("/");
+                        let selectedFile = files[files.length - 1];
+                        setFile(selectedFile);
+                        image_p.src = item.firstElementChild.src;
+                    }, 800);
+                    break;
+            }
+        }
+
+    </script>
 {% endblock %}

@@ -4,16 +4,67 @@
 {% endblock %}
 
 {% block right %}
-	<div class="mt-3 px-3 p-2 bgo-80 card2 rounded">
-		<h1>Accueil</h1>
-		<div class="jumbotron">
-			<h4 class="display-6">Bienvenue !</h4>
-			<p class="text-light">Un site sur la technologie informatique.</p>			
-		</div>
-	</div>
+    {% if user %}
+        {% include('partials/modals/modal_infos_mail.html.twig') %}
+    {% endif %}
+    <div class="mt-3 px-3 p-2 bgo-80 card2 rounded">
+        <h1>Accueil</h1>
+        <div class="jumbotron">
+            {% if user %}
+                <h4 class="my-3 display-6">Bienvenue <b>{{ user.name }}</b>!</h4>
+                {% if user.isVerified %}
+                    <p>Compte : <span class="badge bg-primary">vérifié</span></p>
+                {% else %}
+                    <p onclick="onSubmit('verify');">Compte : <span class="hover badge bg-danger">non vérifié</span></p>
+                {% endif %}
+
+                {% if  user.access =='M' %}
+                    <p>Accès par : <b>mail</b></p>
+                {% endif %}
+                {% if  user.access =='G' %}
+                    <p>Accès par : <b>google</b></p>
+                {% endif %}
+                {% if  user.access =='H' %}
+                    <p>Accès par : <b>github</b></p>
+                {% endif %}
+
+                {% if  'ROLE_USER' in user.roles %}
+                    <p>Type de compte : <b>utilisateur</b></p>
+                {% endif %}
+                {% if  'ROLE_ADMIN' in user.roles %}
+                    <p>Type de compte : <b>administrateur</b></p>
+                {% endif %}
+                {% if 'ROLE_SADMIN' in user.roles %}
+                    <p>Type de compte : <b>super administrateur</b></p>
+                {% endif %}
+
+                <p>Date de création : <b>{{ user.createdAt|date("d-m-Y") }}</b></p>
+
+            {% else %}
+                <h4 class="display-6">Bienvenue !</h4>
+            {% endif %}
+            <p class="text-light">Un site sur la technologie informatique.</p>
+        </div>
+        {#        <form name="form_verify" action="/mail/verify/{{ user.resetToken }}" method="POST"> #}
+        {#        </form> #}
+    </div>
 {% endblock %}
 
 {% block extrajs %}
-	<script type="text/javascript" src="assets/js/common.js"></script>
-	<script type="text/javascript"></script>
+    <script type="text/javascript" src="assets/js/common.js"></script>
+    <script type="text/javascript">
+        {% if user %}
+        {% if not user.isVerified %}
+        let modal = document.querySelector('#modalInfos');
+        const myModal = new bootstrap.Modal(modal);
+        myModal.show();
+        {% endif %}
+        {% endif %}
+        function onSubmit(action) {
+            {% if user %}
+            window.location.href = "/mail/send/{{ user.resetToken }}";
+            {% endif %}
+            //form_verify.submit();
+        }
+    </script>
 {% endblock %}

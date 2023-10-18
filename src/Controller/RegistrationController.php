@@ -5,25 +5,34 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\LoginAuthenticator;
+use App\Service\Util;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationController extends AbstractController
 {
-    private function loadmenu($file){
-        $people_json = file_get_contents($file);
-        $tab_json = json_decode($people_json, false);
-        return $tab_json;
+    private $menu="";
+
+    public function __construct(Util $util)
+    {
+        $this->util = $util;
+        $this->menu=$util->createMenu();
     }
 
     #[Route('/register', name: 'app.register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request,
+                             UserPasswordHasherInterface $userPasswordHasher,
+                             UserAuthenticatorInterface $userAuthenticator,
+                             LoginAuthenticator $authenticator,
+                             EntityManagerInterface $entityManager,
+                             TokenGeneratorInterface $tokenGenerator): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -37,6 +46,11 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            $user->setRoles(['ROLE_USER']);
+            $token = $tokenGenerator->generateToken();
+            $user->setResetToken($token);
+            $user->setIsVerified(false);
+            $user->setAccess("M");
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -51,7 +65,7 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
-            'menu' => $this->loadMenu("data/menu.json")
+            'menu' => $this->menu,
         ]);
     }
 }

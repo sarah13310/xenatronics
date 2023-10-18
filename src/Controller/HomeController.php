@@ -2,28 +2,35 @@
 
 namespace App\Controller;
 
-use App\Service\Util;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\FolioRepository;
+use App\Service\Util;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class HomeController extends AbstractController
 {
 
-    public function __construct(Util $util)
+    private Security $security;
+
+    public function __construct(private Util $util, Security $security)
     {
-        $this->menu=$util->createMenu();
+        $this->menu = $util->createMenu();
+        $this->security = $security;
     }
 
     #[Route('/', name: 'app.home')]
     public function index(): Response
     {
-        //dd($this->util->createMenu());
+        $user = $this->security->getUser();
+        if ($user)
+            $this->menu = $this->util->createMenu($user->getRoles()[0]);
         return $this->render('home/index.html.twig', [
             'menu' => $this->menu,
+            'user' => $user,
         ]);
     }
 
@@ -55,7 +62,7 @@ class HomeController extends AbstractController
     #[Route('/dashboard', name: 'dashboard')]
     public function dashboard(FolioRepository $repo, Request $request, PaginatorInterface $paginator): Response
     {
-        $pagination= $paginator->paginate($repo->paginationQuery(), $request->get('page', 1), 5);
+        $pagination = $paginator->paginate($repo->paginationQuery(), $request->get('page', 1), 5);
         return $this->render('home/dashboard.html.twig', [
             'action' => '/dashboard',
             'pagination' => $pagination,

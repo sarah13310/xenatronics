@@ -13,8 +13,9 @@ html, body {
 
 body{
     overflow-x: hidden;
-    overflow-y: auto;
-    height: 100vh;
+    overflow-y: hidden;
+
+    margin-bottom: 8px;
 }
 
 
@@ -42,6 +43,7 @@ body{
 }
 
 .frameLeft {
+    position:relative;
     border: 1px solid white;
     border-radius: 12px;
     box-shadow: 2px 2px 8px black;
@@ -49,6 +51,7 @@ body{
     margin-top: 7px;
     margin-bottom: 8px;
     margin-left: 2px;
+    height:98vh;
 }
 
 .frameRight {
@@ -183,4 +186,8 @@ hr {
 
 .gray{
     color:lightgray;
+}
+
+.hover, .hover:hover {
+    cursor:pointer;
 }

@@ -3,16 +3,17 @@
 namespace App\Security;
 
 use App\Entity\User;
-use League\OAuth2\Client\Provider\GoogleUser;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
+use League\OAuth2\Client\Provider\GoogleUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
@@ -22,12 +23,17 @@ class GoogleAuthenticator extends OAuth2Authenticator
     private ClientRegistry $clientRegistry;
     private EntityManagerInterface $entityManager;
     private RouterInterface $router;
+    private TokenGeneratorInterface $tokenGenerator;
 
-    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $entityManager, RouterInterface $router)
+    public function __construct(ClientRegistry          $clientRegistry,
+                                EntityManagerInterface  $entityManager,
+                                RouterInterface         $router,
+                                TokenGeneratorInterface $tokenGenerator)
     {
         $this->clientRegistry = $clientRegistry;
         $this->entityManager = $entityManager;
         $this->router = $router;
+        $this->tokenGenerator = $tokenGenerator;
     }
 
     public function supports(Request $request): ?bool
@@ -48,21 +54,27 @@ class GoogleAuthenticator extends OAuth2Authenticator
 
                 $name = $googleUser->getName();
                 $email = $googleUser->getEmail();
+
+                // le token pour vérifier et valider le compte
+                $token = $this->tokenGenerator->generateToken();
+
                 // have they logged in with Google before? Easy!
                 $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(['googleId' => $googleUser->getId()]);
 
                 //User doesnt exist, we create it !
                 if (!$existingUser) {
-                    echo ('User not found');
                     $existingUser = new User();
                     $existingUser->setEmail($email);
                     $existingUser->setName($name);
                     $existingUser->setGoogleId($googleUser->getId());
                     $existingUser->setHostedDomain($googleUser->getHostedDomain());
+                    $existingUser->setAccess("G");
+                    $existingUser->setIsVerified(false);
+                    $existingUser->setResetToken($token);
                     $this->entityManager->persist($existingUser);
                 }
                 $existingUser->setAvatar($googleUser->getAvatar());
-                $this->entityManager->flush();
+                $this->entityManager->flush();// on persiste les données utilisateur
                 return $existingUser;
             })
         );
@@ -70,9 +82,10 @@ class GoogleAuthenticator extends OAuth2Authenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+
         // change "app_dashboard" to some route in your app
-        $avatar=$token->getUser()->getAvatar();
-        $name=$token->getUser()->getName();
+        $avatar = $token->getUser()->getAvatar();
+        $name = $token->getUser()->getName();
         $request->getSession()->set('avatar', $avatar);
         $request->getSession()->set('name', $name);
 

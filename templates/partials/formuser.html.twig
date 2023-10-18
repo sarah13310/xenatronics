@@ -1,17 +1,22 @@
-{{ form_start(form,{'attr': {'class': 'ms-2 col-5 card2 bg-opaque75 rounded'}}) }}
+{{ form_start(form,{'attr': {'class': 'mt-2 col-5 card2 bg-opaque75 rounded'}}) }}
     {{ form_row(form.roles) }}
     {{ form_row(form.name) }}
     {{ form_row(form.email) }}
-    {{ form_row(form.googleId) }}
-{{ form_row(form.avatar) }}<button type="button" onclick="onAvatar()" class="btn btn-primary bi bi-grid-fill  mb-2" >&nbsp;&nbsp;Avatars</button>
-    {{ form_row(form.hostedDomain) }}
-    <button class="col-3 mb-2 btn btn-primary " type="submit" role="button">Créer</button>
+    {% if  action=="add" %}
+        {{ form_row(form.password) }}
+    {% endif %}
+    {{ form_row(form.avatar) }}
+<button type="button" onclick="onAvatar()" class="btn btn-primary bi bi-grid-fill  mb-2">&nbsp;&nbsp;Avatars</button>
+{{ form_row(form.hostedDomain) }}
+<button class="col-3 mb-2 btn btn-primary " type="submit" role="button">Valider</button>
 {{ form_end(form) }}
 
-<div class="ms-2 col-3 card2 bg-opaque75 rounded">
-    <img id="image_preview"  src="{{ asset('assets/images/noimage.jpg') }}" class="thumb-sm mt-2 p-1 "/>
-    <div class="mt-3 ">
+<div class="ms-2 col-3 mt-2 d-flex flex-column card2 bg-opaque75 rounded">
+    <div class="m-3 ">
+        <p id="compte">Compte: <b>indéterminé</b></p>
+        <p>Statut: <span id="status" class="badge rounded-pill bg-danger">Non vérifié</span></p>
         <p class="text-light" id="name">Nom: </p>
         <p class="text-light" id="email">E-mail :</p>
     </div>
+    <img id="image_preview" src="{{ asset('assets/images/noimage.jpg') }}" class="thumb-sm mt-2 p-1 "/>
 </div>
