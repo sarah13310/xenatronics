@@ -35,7 +35,7 @@ class LoginController extends AbstractController
             if ($this->getUser()->getAvatar() == null) {
                 $session->set("avatar", "/assets/images/blank.png");
             }
-            return $this->redirectToRoute('app.home', ['auth' => False]);
+            return $this->redirectToRoute('app.home');
         }
 
         // get the login error if there is one
