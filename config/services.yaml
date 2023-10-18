@@ -29,8 +29,6 @@ services:
     App\Service\SendMailService:
         autowire: true
 
-    App\Service\SecretTokenService:
-        autowire: true
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
