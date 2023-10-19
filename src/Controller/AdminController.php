@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Folio;
 use App\Form\FolioType;
 use App\Repository\FolioRepository;
@@ -18,9 +19,10 @@ use Symfony\Component\Security\Core\Security;
 class AdminController extends AbstractController
 {
 
-    private $user;
+    private  $user;
+    private string $menu;
 
-    public function __construct(private Util $util, private Security $security)
+    public function __construct(private readonly Util $util, private readonly Security $security)
     {
         $this->menu = $util->createMenu();
         $this->user = $this->security->getUser();
