@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'Ce compte existe déjà avec cette adresse mail')]
+#[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use Trait\CreatedAt;
@@ -31,9 +32,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $googleId;
 
 
-    public function __construct(){
-        $this->createdAt= new \DateTimeImmutable();
-    }
+
 
     /**
      * @return mixed
@@ -216,5 +215,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    #[ORM\PrePersist]
+    public function prePersist()
+    {
+        // Votre code à exécuter avant l'insertion de l'entité
+        $this->createdAt=new \DateTimeImmutable();
+        $this->updatedAt=new \DateTime();
+    }
 
+    #[ORM\PreUpdate]
+    public function preUpdate()
+    {
+        // Votre code à exécuter avant la mise à jour de l'entité
+        $this->updatedAt=new \DateTime();
+    }
+
+    #[ORM\PreRemove]
+    public function preRemove()
+    {
+        // Votre code à exécuter avant la suppression de l'entité
+
+        $this->deletedAt=new \DateTime();
+
+    }
 }

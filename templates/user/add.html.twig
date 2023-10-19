@@ -62,13 +62,13 @@
         user_type_create_name.addEventListener("input", (event) => {
             const inputValue = event.target.value;
             if (inputValue) {
-                name_p.innerText = "Nom: " + inputValue;
+                name_p.innerHTML = "Nom: <b>" + inputValue+"</b>";
             }
         })
         user_type_create_email.addEventListener("input", (event) => {
             const inputValue = event.target.value;
             if (inputValue) {
-                email_p.innerText = "E-mail: " + inputValue;
+                email_p.innerHTML = "E-mail: <b>" + inputValue+"</b>";
             }
         })
         user_type_create_avatar.addEventListener('change', function (event) {

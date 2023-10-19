@@ -10,23 +10,22 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class ImageController extends AbstractController
 {
+    private $user;
 
-
-    public function __construct(Util $util)
+    public function __construct(private Util $util, private Security $security)
     {
         $this->menu = $util->createMenu();
+        $this->user = $this->security->getUser();
     }
-
 
     #[Route('/admin/image', name: 'admin.image')]
     public function index(Request $request, PictureService $ps): Response
     {
-//        $image=$request->get('inputfile');
-        // dd($request);
-//        $file = $request->files->get('inputfile');
+        $this->menu = $this->util->createMenu($this->user);
 
         $form = $this->createForm(ImageType::class);
         $form->handleRequest($request);
@@ -37,21 +36,12 @@ class ImageController extends AbstractController
             $file = $form->get('inputfile')->getData();
             $folder = "folios";
             $ps->add($file, $folder, 300, 300);
-
         }
 
-//        if ($request->getMethod() == 'POST') {
-//            dd($file);
-//            if ($file instanceof UploadedFile) {
-//                $folder = "folios";
-//                foreach ($image as $picture) {
-//                    $ps->add($folder, $picture, 300, 300);
-//                }
-//            }
-//
-//        }
         return $this->render('image/index.html.twig', [
             'menu' => $this->menu,
-            'form' => $form->createView(),]);
+            'form' => $form->createView()
+            ]
+        );
     }
 }

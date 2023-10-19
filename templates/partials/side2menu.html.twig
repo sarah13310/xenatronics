@@ -14,8 +14,8 @@
             {% endif %}
             {% if app.user %}
                 <img class="logo-img mb-2" src="{{ app.session.get('avatar') }}">
-                <li class="nav-item small w-100 text-center">
-                    Vous êtes connecté en tant que <br/>
+                <li class="nav-item small ellipsis w-100 text-center mb-2">
+                    Vous êtes connecté <br/>
                     <span class="gray">{{ app.user.userIdentifier }}</span>
                 </li>
             {% endif %}

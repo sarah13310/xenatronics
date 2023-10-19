@@ -13,18 +13,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class AdminController extends AbstractController
 {
 
-    public function __construct(Util $util)
+    private $user;
+
+    public function __construct(private Util $util, private Security $security)
     {
         $this->menu = $util->createMenu();
+        $this->user = $this->security->getUser();
     }
 
     #[Route('/admin/folio/add', name: 'admin.folio.add')]
     public function folio_add(Request $request, EntityManagerInterface $em, PictureService $ps): Response
     {
+        $this->menu = $this->util->createMenu($this->user);
         $folio = new Folio();
         $form = $this->createForm(FolioType::class, $folio);
         $form->handleRequest($request);
@@ -47,6 +52,7 @@ class AdminController extends AbstractController
     #[Route('/admin/folio/edit/{id}', name: 'admin.folio.edit')]
     public function folio_edit(string $id, FolioRepository $repo): Response
     {
+        $this->menu = $this->util->createMenu($this->user);
         $folio = $repo->findOneBy(['id' => $id]);
         if ($folio == null) {
             $folio = new Folio();
@@ -63,6 +69,7 @@ class AdminController extends AbstractController
     #[Route('/admin/folio/delete/{id}', name: 'admin.folio.delete')]
     public function folio_delete(string $id, FolioRepository $repo, EntityManagerInterface $em): Response
     {
+        $this->menu = $this->util->createMenu($this->user);
         $folio = $repo->findOneBy(['id' => $id]);
         $em->remove($folio);
         $em->flush();
@@ -73,6 +80,7 @@ class AdminController extends AbstractController
     #[Route('/admin/dashboard', name: 'admin.dashboard')]
     public function dashboard(FolioRepository $repo, Request $request, PaginatorInterface $paginator): Response
     {
+        $this->menu = $this->util->createMenu($this->user);
         $pagination = $paginator->paginate($repo->paginationQuery(), $request->get('page', 1), 8);
         return $this->render('admin/dashboard.html.twig', [
             'action' => '/dashboard',

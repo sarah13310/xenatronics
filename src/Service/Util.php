@@ -1,14 +1,18 @@
 <?php
 
 namespace App\Service;
+
 use Symfony\Component\Routing\RouterInterface;
 
 class Util
 {
     private RouterInterface $router;
-    public function __construct(RouterInterface $router){
+
+    public function __construct(RouterInterface $router)
+    {
         $this->router = $router;
     }
+
     public function loadMenu($file)
     {
         $people_json = file_get_contents($file);
@@ -18,34 +22,32 @@ class Util
 
     public function addMenuItem(string $name, string $link, string $icon): string
     {
-        if (str_contains($link,"www")){
+        if (str_contains($link, "www")) {
             $url = $link;
-        }
-        else {
-            $url = $this->router->generate($link,[]);
+        } else {
+            $url = $this->router->generate($link, []);
         }
 
         return "        <li class='nav-item '>
-                            <a class=\"nav-link\" href=\"".$url."\"><span class='".$icon."'></span>&nbsp;&nbsp;&nbsp;".$name."</a>
+                            <a class=\"nav-link\" href=\"" . $url . "\"><span class='" . $icon . "'></span>&nbsp;&nbsp;&nbsp;" . $name . "</a>
                         </li>\r\n";
     }
 
     public function addDropMenuItem(string $name, string $link): string
     {
-        if (str_contains($link,"www")){
+        if (str_contains($link, "www")) {
             $url = $link;
-        }
-        else {
-            $url = $this->router->generate($link,[]);
+        } else {
+            $url = $this->router->generate($link, []);
         }
 
-        return "        <a class='dropdown-item' href='".$url."'>".$name."</a>\r\n";
+        return "        <a class='dropdown-item' href='" . $url . "'>" . $name . "</a>\r\n";
     }
 
     public function startDropMenu(string $name, string $icon): string
     {
         return "<li class='nav-item dropdown'>
-                    <a class='nav-link dropdown-toggle ".$icon."' data-bs-toggle='dropdown' href='#' role='button' aria-haspopup='true' aria-expanded='true'>&nbsp;&nbsp;&nbsp;&nbsp;".$name."</a>
+                    <a class='nav-link dropdown-toggle " . $icon . "' data-bs-toggle='dropdown' href='#' role='button' aria-haspopup='true' aria-expanded='true'>&nbsp;&nbsp;&nbsp;&nbsp;" . $name . "</a>
                     <div class='dropdown-menu' >\r\n";
     }
 
@@ -54,42 +56,49 @@ class Util
         return "</li>\r\n";
     }
 
-
-    public function createMenu($type = "ROLE_ADMIN", $bConnected = False)
+    public function createMenu($user=null)
     {
         $menu = "";
         $menu_sub = "";
-        switch ($type) {
-            case 'ROLE_SADMIN':
-            case 'ROLE_ADMIN':
-                // Utilisateurs
-                $menu_sub .= $this->startDropMenu("Utilisateurs", "bi bi-person");
-                $menu_sub .= $this->addDropMenuItem("Liste", "user.list");
-                $menu_sub .= $this->addDropMenuItem("Nouveau", "user.add");
-                $menu_sub .= $this->endDropMenu();
-                //Images
-                $menu_sub .= $this->startDropMenu("Image", "bi bi-image");
-                $menu_sub .= $this->addDropMenuItem("Liste", "admin.image");
-                $menu_sub .= $this->addDropMenuItem("Gestion", "admin.image");
-                $menu_sub .= $this->endDropMenu();
-                // folios
-                $menu_sub .= $this->startDropMenu("Folio", "bi bi-journals");
-                $menu_sub .= $this->addDropMenuItem("Liste", "portfolio");
-                $menu_sub .= $this->addDropMenuItem("Gestion", "folio.dashboard");
-                $menu_sub .= $this->endDropMenu();
-                break;
-            case 'ROLE_USER':
+        if ($user) {
+            $type = $user->getRoles()[0];
+
+            switch ($type) {
+                case 'ROLE_SADMIN':
+                case 'ROLE_ADMIN':
+                    // Utilisateurs
+                    $menu_sub .= $this->startDropMenu("Utilisateurs", "bi bi-person");
+                    $menu_sub .= $this->addDropMenuItem("Liste", "user.list");
+                    $menu_sub .= $this->addDropMenuItem("Nouveau", "user.add");
+                    $menu_sub .= $this->endDropMenu();
+                    //Images
+                    $menu_sub .= $this->startDropMenu("Image", "bi bi-image");
+                    $menu_sub .= $this->addDropMenuItem("Liste", "admin.image");
+                    $menu_sub .= $this->addDropMenuItem("Gestion", "admin.image");
+                    $menu_sub .= $this->endDropMenu();
+                    // folios
+                    $menu_sub .= $this->startDropMenu("Folio", "bi bi-journals");
+                    $menu_sub .= $this->addDropMenuItem("Liste", "portfolio");
+                    $menu_sub .= $this->addDropMenuItem("Gestion", "folio.dashboard");
+                    $menu_sub .= $this->endDropMenu();
+                    break;
+                case 'ROLE_USER':
 //                $menu_sub = $this->startDropMenu("Image", "bi bi-image");
 //                $menu_sub .= $this->addDropMenuItem("Liste", "admin.image");
 //                $menu_sub .= $this->addDropMenuItem("Gestion", "admin.image");
 //                $menu_sub .= $this->endDropMenu();
-                //
-                $menu_sub .= $this->startDropMenu("Folio", "bi bi-journals");
-                $menu_sub .= $this->addDropMenuItem("Liste", "portfolio");
-                $menu_sub .= $this->addDropMenuItem("Gestion", "admin.dashboard");
-                $menu_sub .= $this->endDropMenu();
-                break;
+                    //
+                    $menu_sub .= $this->startDropMenu("Folio", "bi bi-journals");
+                    $menu_sub .= $this->addDropMenuItem("Liste", "portfolio");
+                    $menu_sub .= $this->addDropMenuItem("Gestion", "admin.dashboard");
+                    $menu_sub .= $this->endDropMenu();
+                    break;
+            }
         }
+        else { // si pas connecté
+            $menu_sub.=$this->addMenuItem("Folios", "portfolio", "bi bi-journals");
+        }
+
 //        if (!$bConnected) {
 //            $menu .= $this->addMenuItem("Se connecter", "app.login", "bi bi-box-arrow-in-right");
 //        }
@@ -97,7 +106,7 @@ class Util
         $menu .= $this->addMenuItem("GitHub", "http://www.github.com", "bi bi-github");
         $menu .= $menu_sub;
         $menu .= $this->addMenuItem("A propos", "about", "bi bi-question-lg");
-        
+
 //        if ($bConnected) {
 //            $menu .= $this->addMenuItem("Deconnexion", "app.home", "bi bi-box-arrow-right");
 //        }

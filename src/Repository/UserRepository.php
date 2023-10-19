@@ -42,6 +42,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function paginationQuery()
     {
         return $this->createQueryBuilder('f')
+            ->andWhere('f.deletedAt IS NULL')
             ->orderBy('f.id', 'ASC')
             ->getQuery();
     }

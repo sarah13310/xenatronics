@@ -31,7 +31,6 @@
         showRoles(roles);
         showStatus({{ user.isVerified }});
 
-
         const myCarousel = document.getElementById('myCarousel')
         const carousel = new bootstrap.Carousel(myCarousel);
 
@@ -63,12 +62,11 @@
         let image_p = document.getElementById("image_preview");
 
         image_p.src = "{{ user.avatar }}";
-        name_p.innerText = "Nom: " + user_name.value;
-        email_p.innerText = "E-mail: " + user_email.value;
+        name_p.innerHTML = "Nom: <b>" + user_name.value + "</b>";
+        email_p.innerHTML = "E-mail: <b>" + user_email.value + "</b>";
 
         user_roles.addEventListener("change", (event) => {
             const inputValue = event.target.value;
-
             if (inputValue) {
                 showRoles(inputValue);
             }
@@ -77,14 +75,14 @@
         user_name.addEventListener("input", (event) => {
             const inputValue = event.target.value;
             if (inputValue) {
-                name_p.innerText = "Nom: " + inputValue;
+                name_p.innerHTML = "Nom: <b>" + inputValue + "</b>";
             }
         });
 
         user_email.addEventListener("input", (event) => {
             const inputValue = event.target.value;
             if (inputValue) {
-                email_p.innerText = "E-mail: " + inputValue;
+                email_p.innerHTML = "E-mail: <b>" + inputValue + "</b>";
             }
         });
 

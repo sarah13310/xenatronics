@@ -20,7 +20,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends AbstractController
 {
-
+    private string $menu="";
     public function __construct(private Util $util)
     {
         $this->menu = $util->createMenu();
@@ -29,9 +29,10 @@ class LoginController extends AbstractController
     #[Route(path: '/login', name: 'app.login')]
     public function login(SessionInterface $session, AuthenticationUtils $authenticationUtils): Response
     {
-
-        if ($this->getUser()) {
-            if ($this->getUser()->getAvatar() == null) {
+        $user=$this->getUser();
+        if ($user) {
+            $this->menu=$this->util->createMenu($user);
+            if ($user->getAvatar() == null) {
                 $session->set("avatar", "/assets/images/blank.png");
             }
             return $this->redirectToRoute('app.home');

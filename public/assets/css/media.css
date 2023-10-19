@@ -46,6 +46,13 @@
         white-space: nowrap;
         line-height: 25px;
     }
+    .logo-img{
+        height:50px;
+        width:50px;
+    }
+    .navbar{
+        display:block;
+    }
 
 }
 
