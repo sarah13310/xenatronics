@@ -16,32 +16,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class UserController extends AbstractController
 {
-//    private UserRepository $repo;
-//
-//    public function __construct(Util $util, UserRepository $repo)
-//    {
-//        $this->repo = $repo;
-//        $this->menu = $util->createMenu();
-//    }
 
-    private $user;
-
-    public function __construct(private UserRepository $repo, private Util $util, private Security $security)
+    public function __construct(private UserRepository $repo, private Util $util)
     {
         $this->menu = $util->createMenu();
-        $this->user = $this->security->getUser();
     }
-
 
     #[Route('/user/list', name: 'user.list')]
     public function user_list(Request $request, UserRepository $repo, PaginatorInterface $paginator): Response
     {
-        $this->menu = $this->util->createMenu($this->user);
+        $this->menu = $this->util->createMenu($this->getUser());
 
         $pagination = $paginator->paginate($repo->paginationQuery(), $request->get('page', 1), 8);
         return $this->render('user/list.html.twig', [
@@ -60,7 +48,7 @@ class UserController extends AbstractController
                              SendMailService             $mail,
                              TokenGeneratorInterface     $tokenGenerator): Response
     {
-        $this->menu = $this->util->createMenu($this->user);
+        $this->menu = $this->util->createMenu($this->getUser());
 
         $rootPath = $this->getParameter('kernel.project_dir');
         $files = $ps->scandir("assets/images/avatars");
@@ -117,7 +105,7 @@ class UserController extends AbstractController
                               PictureService         $ps
     ): Response
     {
-        $this->menu = $this->util->createMenu($this->user);
+        $this->menu = $this->util->createMenu($this->getUser());
 
         $files = $ps->scandir("assets/images/avatars");
 

@@ -10,22 +10,21 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
+
 
 class ImageController extends AbstractController
 {
-    private $user;
+    private string $menu;
 
-    public function __construct(private Util $util, private Security $security)
+    public function __construct(private Util $util)
     {
         $this->menu = $util->createMenu();
-        $this->user = $this->security->getUser();
     }
 
     #[Route('/admin/image', name: 'admin.image')]
     public function index(Request $request, PictureService $ps): Response
     {
-        $this->menu = $this->util->createMenu($this->user);
+        $this->menu = $this->util->createMenu($this->getUser());
 
         $form = $this->createForm(ImageType::class);
         $form->handleRequest($request);
