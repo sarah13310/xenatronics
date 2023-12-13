@@ -1,0 +1,24 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "/build/runtime.js"
+      ]
+    },
+    "main": {
+      "js": [
+        "/build/runtime.js"
+      ]
+    },
+    "media": {
+      "js": [
+        "/build/runtime.js"
+      ]
+    },
+    "login": {
+      "js": [
+        "/build/runtime.js"
+      ]
+    }
+  }
+}
